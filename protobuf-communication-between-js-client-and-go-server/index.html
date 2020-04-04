@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <title>Protobuf communication between Js-client and Go-server - Miguel Abate</title>
+
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' href='/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/css/custom.css' type='text/css' media='all' />
+        
+</head>
+    <body class="two-column">
+        <a href="#content">Skip to content</a>
+<div class="wrapper">
+    <header role="banner" class="banner widgets columns-1">
+        <a href="/" rel="home">
+            <h1 class="site" style="font-size:40px;">Miguel Abate</h1>
+            <p></p>
+        </a>
+        <nav role="navigation" aria-label="Primary Navigation">
+
+            <ul class="menu">
+                <li class="menu-item "><a class="menu__link" href="/about/">ABOUT</a></li>
+                <li class="menu-item "><a class="menu__link" href="/blog/">POSTS</a></li>
+            </ul>
+            <select onChange="location.href=value;">
+                <option value="/about/" class="menu-item menu-item-type-custom menu-item-object-custom" >ABOUT</option>
+                <option value="/blog/" class="menu-item menu-item-type-custom menu-item-object-custom" >POSTS</option>
+            </select>
+        </nav>
+    </header>
+
+    <br>
+    <div style="width: 100%; max-height: 100px; text-align: center;">
+       
+</div>
+
+    <div class="breadcrumbs">
+        
+    </div>
+
+        <div id="content" class="content">
+
+<main role="main">
+    <article role="article" class="post type-post format-standard hentry">
+        <header class="post-header">
+            <h1>Protobuf communication between Js-client and Go-server</h1>
+            <div class="post-details">
+                <a rel="bookmark">
+                    <time datetime="2019-12-05T125:229:516">2019-12-05</time>
+                </a>
+				
+<span style="float: right;">
+    <div id="fb-root" style="height: 100%;"></div>
+    
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+    
+    <div class="fb-share-button" data-href="/protobuf-communication-between-js-client-and-go-server/" data-layout="button_count" data-size="small">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2fprotobuf-communication-between-js-client-and-go-server%2f" class="fb-xfbml-parse-ignore">Share</a>
+    </div>
+    &nbsp;
+    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Protobuf communication between Js-client and Go-server" data-url="/protobuf-communication-between-js-client-and-go-server/" data-show-count="false">Tweet</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    &nbsp;
+    
+</span>
+
+            </div>
+        </header>
+
+        <div class="post-content">
+            <p>In this article, I present a small Proof of Concept of communication between a browser (Js) and a server (Golang) using Protocol Buffers over Websockets. This idea emerged as part of a bigger personal project I&rsquo;m working on and will probably show here in the future.</p>
+
+<h1 id="objective-of-the-project">Objective of the project</h1>
+
+<p>The functionality of this proof of concept is pretty basic but it is a good showcase for quite a few technologies that are interesting to experiment with.<br />
+The idea is to create a persons database that is searchable and updatable from the browser.<br />
+For the frontend (browser), I will use plain javascript.<br />
+For the server, I will use Go.<br />
+For communication between the two, I will use WebSockets and the data will be serialized in the protocol buffers binary format.</p>
+
+<p><img src="/js-proto-ws-schema.png" alt="Schema" title="Basic component schema" /></p>
+
+<h1 id="protobuf">Protobuf</h1>
+
+<p>If you are not familiar with Protocol Buffers, I&rsquo;d recommend starting with the official page <a href="https://developers.google.com/protocol-buffers/">https://developers.google.com/protocol-buffers/</a>.<br />
+In short, as the site says, &ldquo;Protocol buffers are a language-neutral, platform-neutral extensible mechanism for serializing structured data&rdquo;</p>
+
+<p>One of the main advantages of protocol buffer binary format, over other ways of data serialization (E.g: XML, JSON), is that the messages are smaller and transmitted faster. Unlike XML, protocol buffer messages are not self-describing, so, when reading or writing, you will always need the message definition (the .proto file).<br />
+Protobuf are supported by every major language.</p>
+
+<p>This is very nice, but how does it look like in this case? You can check it out here:<br />
+<a href="https://github.com/miguelabate/js-go-proto-poc/blob/master/proto/message.proto">message.proto</a></p>
+
+<p>Some decisions are worth mentioning. I define two message types that are used as events to trigger actions in the systems. Such as insert a Person or query Persons.</p>
+
+<pre><code class="language-proto">message UpsertPerson {
+    Person person = 1;
+}
+
+message QueryPerson {
+    string name_regexp = 1;
+}
+</code></pre>
+
+<p>A trick I do to handle this events between client and server, is wrapping them into another generic message like this.</p>
+
+<pre><code class="language-proto">message ClientEvent {
+    oneof event {
+        UpsertPerson upsert_person = 1;
+        QueryPerson query_person = 2;
+    }
+}
+</code></pre>
+
+<p>In this way, when I get a ClientEvent message in the server, I can easily figure out what is the actual event and deserialize correctly.</p>
+
+<p>Then, I have he model itself with messages defined like:</p>
+
+<pre><code class="language-proto">message Person {
+    string name = 1;
+    repeated string characteristics = 2;
+    float height = 3;
+    int32 years = 4;
+    repeated Address known_addresses = 5;
+    bool has_police_record = 6;
+    Gender gender = 7;
+}
+</code></pre>
+
+<p>No big deal here. Just the Person entity with various fields to showcase different attribute types.</p>
+
+<p>Another trick I&rsquo;m using is defining a message called PersonDB like:</p>
+
+<pre><code>message PersonDB {
+    repeated Person persons = 1;
+}
+</code></pre>
+
+<p>I use this to serialize and deserialize the whole dataset from/to disk.</p>
+
+<p>Going on, as mentioned earlier, the .proto file is just the definition of the messages I will be using. Now I need to generate actual code from this proto so my client and server application can understand. This means I will have to generate code in Golang and in Js.</p>
+
+<h2 id="generating-protobuf-code-for-golang">Generating protobuf code for Golang</h2>
+
+<ul>
+<li><p>Download and install protobuf compiler from <a href="https://developers.google.com/protocol-buffers/docs/downloads.html">https://developers.google.com/protocol-buffers/docs/downloads.html</a></p></li>
+
+<li><p>Install golang proto plugin doing</p>
+
+<pre><code>go get -u github.com/golang/protobuf/protoc-gen-go
+</code></pre></li>
+
+<li><p>Generate the source code for Go with the following command</p>
+
+<pre><code>protoc --proto_path=../ --go_out=. ../proto/message.proto
+</code></pre></li>
+</ul>
+
+<h2 id="generating-protobuf-code-for-js">Generating protobuf code for Js</h2>
+
+<ul>
+<li><p>Install protoc (already have it from previous step)</p></li>
+
+<li><p>Generate the source code for Js with the following command</p>
+
+<pre><code>protoc --proto_path=../ --js_out=library=MyMessages,binary:build/gen ../proto/message.proto
+</code></pre></li>
+</ul>
+
+<h1 id="the-server-go">The server: Go</h1>
+
+<p>Let&rsquo;s take a look at the main file that makes the server<br />
+<a href="https://github.com/miguelabate/js-go-proto-poc/blob/master/go-server-proto/main.go">https://github.com/miguelabate/js-go-proto-poc/blob/master/go-server-proto/main.go</a></p>
+
+<p>To handle the websocket connections, I use the convenient Gorilla WebSockets library <a href="github.com/gorilla/websocket">github.com/gorilla/websocket</a>. This library handles the connection and the upgrade to WS.</p>
+
+<p>E.g.:</p>
+
+<p>Start the application with a basic http server listening on 8081 and set the ws function to handle the request</p>
+
+<pre><code>    var addr = flag.String(&quot;addr&quot;, &quot;:8081&quot;, &quot;http service address&quot;)
+.
+.
+.
+	http.HandleFunc(&quot;/ws&quot;, ws)
+	log.Fatal(http.ListenAndServe(*addr, nil))
+</code></pre>
+
+<p>The start of the ws function that handles the request looks like:</p>
+
+<pre><code>func ws(w http.ResponseWriter, r *http.Request) {
+	c, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Print(&quot;upgrade:&quot;, err)
+		return
+	}
+	defer c.Close()
+.
+.
+.
+</code></pre>
+
+<p>As you can see, the first thing I do is upgrade the connection to WS and then I can easily use it for reading from the WS:</p>
+
+<pre><code>_, message, err := c.ReadMessage()
+</code></pre>
+
+<p>And writing:</p>
+
+<pre><code>err = c.WriteMessage(websocket.BinaryMessage, dataToSend)
+</code></pre>
+
+<p>A nice tip here is that the default WS upgrader won&rsquo;t be able to handle Cross Origin connections, making it hard to do local development, so a trick here is to define your own upgrader like:</p>
+
+<pre><code>var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool { //doing this to allow cross origin for now
+		return true
+	},
+}
+</code></pre>
+
+<p>That&rsquo;s about it for the WebSocket connection handling. Now, other operations that I need to do in the server is deserialize the proto messages like:</p>
+
+<pre><code>clientEvent := &amp;mymessages.ClientEvent{}
+err = proto.Unmarshal(message, clientEvent)
+</code></pre>
+
+<p>Or serialize to send to the client:</p>
+
+<pre><code>result := new(mymessages.QueryPersonResult)
+result.Persons = foundPersons
+
+dataToSend, err := proto.Marshal(result)
+</code></pre>
+
+<p>Other thing I do in the server, is persisting the messages to disk:</p>
+
+<pre><code>persondb_bytes, _ := json.Marshal(personsdb_obj)
+err := ioutil.WriteFile(&quot;myPersonsDB&quot;, persondb_bytes, 0644)
+</code></pre>
+
+<p>Then I can restore it between server restarts.</p>
+
+<h1 id="the-client-js">The client: Js</h1>
+
+<p>On the client side, I just have an html form with fields related to our Person entity and some buttons to do actions like open a WS connection, send a Person message to our persistence and query.</p>
+
+<p>The main code for this can be  seen here <a href="https://github.com/miguelabate/js-go-proto-poc/blob/master/js-client-proto/main.js">https://github.com/miguelabate/js-go-proto-poc/blob/master/js-client-proto/main.js</a></p>
+
+<p>In our html we must include the necessary dependencies to work with js proto, and google clousures (the format used to generate the js sources based on the protos).</p>
+
+<p>Can get these dependencies from:</p>
+
+<ul>
+<li><p>include the protobuf js libs:<br />
+git@github.com:protocolbuffers/protobuf.git<br />
+<a href="https://github.com/protocolbuffers/protobuf/tree/master/js">https://github.com/protocolbuffers/protobuf/tree/master/js</a></p></li>
+
+<li><p>get the closure library from google to be able to import the sources generated from the proto<br />
+<a href="https://github.com/google/closure-library">https://github.com/google/closure-library</a></p></li>
+</ul>
+
+<p>The includes should look like:</p>
+
+<pre><code class="language-html">  &lt;!-- closure lib from google --&gt;
+  &lt;script src=&quot;libs-js/closure-library/closure/goog/base.js&quot;&gt;&lt;/script&gt;
+
+  &lt;!-- Protobuf --&gt;
+  &lt;script src=&quot;libs-js/constants.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;libs-js/utils.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;libs-js/arith.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;libs-js/decoder.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;libs-js/encoder.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;libs-js/reader.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;libs-js/writer.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;libs-js/map.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;libs-js/message.js&quot;&gt;&lt;/script&gt;
+
+  &lt;!-- Generated from proto --&gt;
+  &lt;script src=&quot;./build/gen/MyMessages.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+
+<p>To connect to the WebSocket server I use the default HTML5 WebScoket capabilities.</p>
+
+<p>In the following piece of JS code, it can be seen how to connect to the WS server and react to events, also it shows how to serialize and deserialize protobuf messages</p>
+
+<pre><code class="language-js">    document.getElementById(&quot;open&quot;).onclick = function (evt) {
+        if (ws) {
+            return false;
+        }
+        ws = new WebSocket(&quot;ws://127.0.0.1:8081/ws&quot;);
+        ws.binaryType = 'arraybuffer';
+        ws.onopen = function (evt) {
+            print(&quot;OPEN&quot;);
+        }
+        ws.onclose = function (evt) {
+            print(&quot;CLOSE&quot;);
+            ws = null;
+        }
+        ws.onmessage = function (evt) {
+            let arrayBuffer = event.data;
+            let message = proto.QueryPersonResult.deserializeBinary(arrayBuffer);
+
+            console.log(message.toObject());
+            let persons_retrieved = message.getPersonsList()
+            print(&quot;QUERY RESULT TOTAL:&quot; + persons_retrieved.length);
+            for (let i = 0; i &lt; persons_retrieved.length; i++) {
+                print(&quot;QUERY RESULT:&quot;);
+                print(prettyStringPerson(persons_retrieved[i]));
+            }
+
+        }
+        ws.onerror = function (evt) {
+            print(&quot;ERROR: &quot; + evt.data);
+        }
+        return false;
+    };
+</code></pre>
+
+<p>Another important piece of code is the one that sends (and serializes) to the WS server</p>
+
+<pre><code class="language-js">    document.getElementById(&quot;send&quot;).onclick = function (evt) {
+        if (!ws) {
+            return false;
+        }
+
+        let message = new proto.ClientEvent();
+        let upsertEvent = new proto.UpsertPerson();
+        let newPerson = new proto.Person();
+        newPerson.setName(inputName.value);
+        newPerson.setCharacteristicsList(inputCharacteristics.value.split(&quot;;&quot;));
+        newPerson.setYears(inputYears.value);
+        newPerson.setHeight(inputHeight.value);
+        newPerson.setKnownAddressesList(getAddressesList(inputAddresses.value));
+        newPerson.setGender(proto.Gender[inputGender.value]);
+        newPerson.setHasPoliceRecord((inputPolRecord.value === 'true'));
+
+        upsertEvent.setPerson(newPerson);
+        message.setUpsertPerson(upsertEvent);
+        print(&quot;SENT: &quot; + message.toString());
+        ws.send(message.serializeBinary(), { binary: true });
+        return false;
+    };
+</code></pre>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>I have presented small POC showing how to set up a WebSocket server in GoLang and communicate with a browser JS client using protobuf messages. Interesting if you need to develop some kind of project (maybe a game?) that needs to keep a bidirectional connection between client-server.</p>
+        </div>
+
+        <footer class="post-footer">
+            
+            <span class="post-categories">
+                
+                <a href="/categories/poc" rel="tag">POC</a>
+                
+            </span>
+            
+
+            
+            <span class="post-tags">
+                
+                <a href="/tags/go" rel="tag">go</a>&emsp;
+                
+                <a href="/tags/js" rel="tag">js</a>&emsp;
+                
+                <a href="/tags/html" rel="tag">html</a>&emsp;
+                
+                <a href="/tags/websocket" rel="tag">websocket</a>&emsp;
+                
+                <a href="/tags/protobuf" rel="tag">protobuf</a>&emsp;
+                
+            </span>
+            
+        </footer>
+        
+<table cellspacing="15" style="width:100%; border: none;">
+    <tr>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+    </tr>
+</table>
+
+        
+	
+	
+
+    </article>
+
+    
+    <nav class="navigation post-navigation" role="navigation">
+        <div class="nav-links">
+            <div class="nav-previous">
+                
+            </div>
+            <div class="nav-next">
+                
+                <a class="next" href="/reddit-urls-scraper/"> Reddit Urls Scraper</a>
+                
+            </div>
+        </div>
+    </nav>
+    <section>
+        
+    </section>
+    
+
+</main>
+
+
+        <div class="sidebar1 widgets columns-1">
+
+    <aside>
+    
+</aside>
+    <aside class="widget widget_categories">
+        <h2>Categories</h2>
+        <ul class="widget__list"><li class="cat-item cat-item-2">
+                <a href="/categories/bash">Bash (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/poc">POC (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/tool">Tool (2)</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_tag_cloud">
+        <h2>Tags</h2>
+        <div class="tagcloud"><a class="tag-cloud-link" href="/tags/bash" title="bash" style="font-size: 12pt;">bash</a>&emsp;<a class="tag-cloud-link" href="/tags/command-line" title="command-line" style="font-size: 12pt;">command line</a>&emsp;<a class="tag-cloud-link" href="/tags/ebook" title="ebook" style="font-size: 12pt;">eBook</a>&emsp;<a class="tag-cloud-link" href="/tags/go" title="go" style="font-size: 12pt;">go</a>&emsp;<a class="tag-cloud-link" href="/tags/golang" title="golang" style="font-size: 12pt;">golang</a>&emsp;<a class="tag-cloud-link" href="/tags/html" title="html" style="font-size: 12pt;">html</a>&emsp;<a class="tag-cloud-link" href="/tags/js" title="js" style="font-size: 12pt;">js</a>&emsp;<a class="tag-cloud-link" href="/tags/linux" title="linux" style="font-size: 12pt;">linux</a>&emsp;<a class="tag-cloud-link" href="/tags/protobuf" title="protobuf" style="font-size: 12pt;">protobuf</a>&emsp;<a class="tag-cloud-link" href="/tags/reddit" title="reddit" style="font-size: 12pt;">reddit</a>&emsp;<a class="tag-cloud-link" href="/tags/tool" title="tool" style="font-size: 12pt;">tool</a>&emsp;<a class="tag-cloud-link" href="/tags/websocket" title="websocket" style="font-size: 12pt;">websocket</a>&emsp;
+        </div>
+    </aside>
+
+    <aside class="widget widget_recent_entries">
+        <h2>Recent Posts</h2>
+        <ul>
+            <li>
+                <a href="/bulk-ebook-converter/">Bulk eBook Converter</a>
+            </li>
+            <li>
+                <a href="/reddit-urls-scraper/">Reddit Urls Scraper</a>
+            </li>
+            <li>
+                <a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_archive">
+        <h2>Archives</h2>
+        <ul>
+        </ul>
+    </aside>
+
+</div>
+        </div>
+        </div>
+<footer role="contentinfo" class="document-footer contentinfo widgets columns-1">
+
+    <aside class="widget widget_text">
+        <div class="textwidget">
+            <p>© Miguel Abate / Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/tosi29/inkblotty" target="_blank">Inkblotty</a></p>
+        </div>
+    </aside>
+</footer>
+</div>
+
+    </body>
+</html>

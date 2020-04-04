@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Miguel Abate</title>
+    <link>/</link>
+    <description>Recent content on Miguel Abate</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 04 Apr 2020 18:50:28 +0200</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bulk eBook Converter</title>
+      <link>/bulk-ebook-converter/</link>
+      <pubDate>Sat, 04 Apr 2020 18:50:28 +0200</pubDate>
+      
+      <guid>/bulk-ebook-converter/</guid>
+      <description>&lt;p&gt;Small script that wraps the ebook-converter tool for a convenient bulk usage.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Reddit Urls Scraper</title>
+      <link>/reddit-urls-scraper/</link>
+      <pubDate>Sat, 21 Mar 2020 17:30:50 +0100</pubDate>
+      
+      <guid>/reddit-urls-scraper/</guid>
+      <description>&lt;p&gt;Just showcasing a small command line tool to fetch urls from posts from a given subreddit.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Protobuf communication between Js-client and Go-server</title>
+      <link>/protobuf-communication-between-js-client-and-go-server/</link>
+      <pubDate>Thu, 05 Dec 2019 14:29:51 +0200</pubDate>
+      
+      <guid>/protobuf-communication-between-js-client-and-go-server/</guid>
+      <description>&lt;p&gt;In this article, I present a small Proof of Concept of communication between a browser (Js) and a server (Golang) using Protocol Buffers over Websockets. This idea emerged as part of a bigger personal project I&amp;rsquo;m working on and will probably show here in the future.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>/about/</link>
+      <pubDate>Sat, 13 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Hello! My name is Miguel. Got my Software Engineer degree at the University of Buenos Aires, Argentina. I&amp;rsquo;m currently living and working in the Netherlands.
+The purpose of this blog is to share my IT interests, personal projects and daily findings that might be helpful to others (and probably myself in the future) :)
+I&amp;rsquo;m experienced in web application developement involving Java, Microservices architecture, Protobuf, gRPC, Google Cloud Infrastructure and DevOps.
+Interested in Go, NodeJS, Machine Learning and NLP.
+Find me in:
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 
+&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</description>
+    </item>
+    
+  </channel>
+</rss>

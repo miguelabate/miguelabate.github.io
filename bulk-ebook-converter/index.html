@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <title>Bulk eBook Converter - Miguel Abate</title>
+
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' href='/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/css/custom.css' type='text/css' media='all' />
+        
+</head>
+    <body class="two-column">
+        <a href="#content">Skip to content</a>
+<div class="wrapper">
+    <header role="banner" class="banner widgets columns-1">
+        <a href="/" rel="home">
+            <h1 class="site" style="font-size:40px;">Miguel Abate</h1>
+            <p></p>
+        </a>
+        <nav role="navigation" aria-label="Primary Navigation">
+
+            <ul class="menu">
+                <li class="menu-item "><a class="menu__link" href="/about/">ABOUT</a></li>
+                <li class="menu-item "><a class="menu__link" href="/blog/">POSTS</a></li>
+            </ul>
+            <select onChange="location.href=value;">
+                <option value="/about/" class="menu-item menu-item-type-custom menu-item-object-custom" >ABOUT</option>
+                <option value="/blog/" class="menu-item menu-item-type-custom menu-item-object-custom" >POSTS</option>
+            </select>
+        </nav>
+    </header>
+
+    <br>
+    <div style="width: 100%; max-height: 100px; text-align: center;">
+       
+</div>
+
+    <div class="breadcrumbs">
+        
+    </div>
+
+        <div id="content" class="content">
+
+<main role="main">
+    <article role="article" class="post type-post format-standard hentry">
+        <header class="post-header">
+            <h1>Bulk eBook Converter</h1>
+            <div class="post-details">
+                <a rel="bookmark">
+                    <time datetime="2020-04-04T44:650:286">2020-04-04</time>
+                </a>
+				
+<span style="float: right;">
+    <div id="fb-root" style="height: 100%;"></div>
+    
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+    
+    <div class="fb-share-button" data-href="/bulk-ebook-converter/" data-layout="button_count" data-size="small">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2fbulk-ebook-converter%2f" class="fb-xfbml-parse-ignore">Share</a>
+    </div>
+    &nbsp;
+    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Bulk eBook Converter" data-url="/bulk-ebook-converter/" data-show-count="false">Tweet</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    &nbsp;
+    
+</span>
+
+            </div>
+        </header>
+
+        <div class="post-content">
+            <p>Small script that wraps the ebook-converter tool for a convenient bulk usage.</p>
+
+<p>This is a simple bash script that uses <a href="http://manpages.ubuntu.com/manpages/bionic/man1/ebook-convert.1.html">ebook-converter</a> to handle bulk file conversion.<br />
+So it needs to be installed for it to work.</p>
+
+<pre><code>#!/bin/sh
+DIR=&quot;$1&quot;
+INTYPE=&quot;$2&quot;
+OUTTYPE=&quot;$3&quot;
+
+# default to current dir and input=epub, output=mobi
+[ &quot;$DIR&quot; == &quot;&quot; ] &amp;&amp; DIR=&quot;.&quot;
+[ &quot;$INTYPE&quot; == &quot;&quot; ] &amp;&amp; INTYPE=&quot;epub&quot;
+[ &quot;$OUTTYPE&quot; == &quot;&quot; ] &amp;&amp; OUTTYPE=&quot;mobi&quot;
+
+# save and change IFS
+OLDIFS=$IFS
+IFS=$'\n'
+ 
+# read all file name into an array
+fileArray=($(find &quot;$PWD&quot;/$DIR -type f |grep &quot;\.$INTYPE$&quot;))
+ 
+# restore it
+IFS=$OLDIFS
+ 
+# get length of an array
+tLen=${#fileArray[@]}
+ 
+# loop all files
+for (( i=0; i&lt;${tLen}; i++ ));
+do
+  echo &quot;Converting ${fileArray[$i]}&quot;
+  ebook-convert &quot;${fileArray[$i]}&quot; &quot;$(basename &quot;${fileArray[$i]}&quot; .$INTYPE).$OUTTYPE&quot;
+done
+
+#Credits: base script inspired from https://www.cyberciti.biz/tips/handling-filenames-with-spaces-in-bash.html
+</code></pre>
+
+<p>The code can be found in <a href="https://github.com/miguelabate/bash-scripts/blob/master/bulk-ebook-converter.sh">https://github.com/miguelabate/bash-scripts/blob/master/bulk-ebook-converter.sh</a></p>
+
+<h1 id="usage">Usage</h1>
+
+<pre><code>./bulk-ebook-converter.sh &lt;some-dir&gt; &lt;input-format&gt; &lt;output-format&gt;
+</code></pre>
+
+<p>For example:</p>
+
+<pre><code>./bulk-ebook-converter.sh mybooks epub mobi
+</code></pre>
+
+<p>This command will find all the .epub files under mybooks directory in a recursive way and generate the .mobi files in the current folder (where the command is running).</p>
+
+<p>If not specified, the default input format is &ldquo;epub&rdquo;, the output is &ldquo;mobi&rdquo; and the the directory used is the current one.</p>
+        </div>
+
+        <footer class="post-footer">
+            
+            <span class="post-categories">
+                
+                <a href="/categories/tool" rel="tag">Tool</a>
+                
+                <a href="/categories/bash" rel="tag">Bash</a>
+                
+            </span>
+            
+
+            
+            <span class="post-tags">
+                
+                <a href="/tags/bash" rel="tag">bash</a>&emsp;
+                
+                <a href="/tags/linux" rel="tag">linux</a>&emsp;
+                
+                <a href="/tags/command-line" rel="tag">command line</a>&emsp;
+                
+                <a href="/tags/ebook" rel="tag">eBook</a>&emsp;
+                
+                <a href="/tags/tool" rel="tag">tool</a>&emsp;
+                
+            </span>
+            
+        </footer>
+        
+<table cellspacing="15" style="width:100%; border: none;">
+    <tr>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+    </tr>
+</table>
+
+        
+	
+	
+	<h4>Related Posts</h4>
+	<ol style="margin-left: 30px; list-style-type: decimal;">
+		
+		<li><strong><a href="/reddit-urls-scraper/">Reddit Urls Scraper</a></strong></li>
+		
+	</ol>
+	
+
+    </article>
+
+    
+    <nav class="navigation post-navigation" role="navigation">
+        <div class="nav-links">
+            <div class="nav-previous">
+                
+                <a class="previous" href="/reddit-urls-scraper/"> Reddit Urls Scraper</a>
+                
+            </div>
+            <div class="nav-next">
+                
+            </div>
+        </div>
+    </nav>
+    <section>
+        
+    </section>
+    
+
+</main>
+
+
+        <div class="sidebar1 widgets columns-1">
+
+    <aside>
+    
+</aside>
+    <aside class="widget widget_categories">
+        <h2>Categories</h2>
+        <ul class="widget__list"><li class="cat-item cat-item-2">
+                <a href="/categories/bash">Bash (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/poc">POC (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/tool">Tool (2)</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_tag_cloud">
+        <h2>Tags</h2>
+        <div class="tagcloud"><a class="tag-cloud-link" href="/tags/bash" title="bash" style="font-size: 12pt;">bash</a>&emsp;<a class="tag-cloud-link" href="/tags/command-line" title="command-line" style="font-size: 12pt;">command line</a>&emsp;<a class="tag-cloud-link" href="/tags/ebook" title="ebook" style="font-size: 12pt;">eBook</a>&emsp;<a class="tag-cloud-link" href="/tags/go" title="go" style="font-size: 12pt;">go</a>&emsp;<a class="tag-cloud-link" href="/tags/golang" title="golang" style="font-size: 12pt;">golang</a>&emsp;<a class="tag-cloud-link" href="/tags/html" title="html" style="font-size: 12pt;">html</a>&emsp;<a class="tag-cloud-link" href="/tags/js" title="js" style="font-size: 12pt;">js</a>&emsp;<a class="tag-cloud-link" href="/tags/linux" title="linux" style="font-size: 12pt;">linux</a>&emsp;<a class="tag-cloud-link" href="/tags/protobuf" title="protobuf" style="font-size: 12pt;">protobuf</a>&emsp;<a class="tag-cloud-link" href="/tags/reddit" title="reddit" style="font-size: 12pt;">reddit</a>&emsp;<a class="tag-cloud-link" href="/tags/tool" title="tool" style="font-size: 12pt;">tool</a>&emsp;<a class="tag-cloud-link" href="/tags/websocket" title="websocket" style="font-size: 12pt;">websocket</a>&emsp;
+        </div>
+    </aside>
+
+    <aside class="widget widget_recent_entries">
+        <h2>Recent Posts</h2>
+        <ul>
+            <li>
+                <a href="/bulk-ebook-converter/">Bulk eBook Converter</a>
+            </li>
+            <li>
+                <a href="/reddit-urls-scraper/">Reddit Urls Scraper</a>
+            </li>
+            <li>
+                <a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_archive">
+        <h2>Archives</h2>
+        <ul>
+        </ul>
+    </aside>
+
+</div>
+        </div>
+        </div>
+<footer role="contentinfo" class="document-footer contentinfo widgets columns-1">
+
+    <aside class="widget widget_text">
+        <div class="textwidget">
+            <p>© Miguel Abate / Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/tosi29/inkblotty" target="_blank">Inkblotty</a></p>
+        </div>
+    </aside>
+</footer>
+</div>
+
+    </body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <title>Reddit Urls Scraper - Miguel Abate</title>
+
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' href='/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/css/custom.css' type='text/css' media='all' />
+        
+</head>
+    <body class="two-column">
+        <a href="#content">Skip to content</a>
+<div class="wrapper">
+    <header role="banner" class="banner widgets columns-1">
+        <a href="/" rel="home">
+            <h1 class="site" style="font-size:40px;">Miguel Abate</h1>
+            <p></p>
+        </a>
+        <nav role="navigation" aria-label="Primary Navigation">
+
+            <ul class="menu">
+                <li class="menu-item "><a class="menu__link" href="/about/">ABOUT</a></li>
+                <li class="menu-item "><a class="menu__link" href="/blog/">POSTS</a></li>
+            </ul>
+            <select onChange="location.href=value;">
+                <option value="/about/" class="menu-item menu-item-type-custom menu-item-object-custom" >ABOUT</option>
+                <option value="/blog/" class="menu-item menu-item-type-custom menu-item-object-custom" >POSTS</option>
+            </select>
+        </nav>
+    </header>
+
+    <br>
+    <div style="width: 100%; max-height: 100px; text-align: center;">
+       
+</div>
+
+    <div class="breadcrumbs">
+        
+    </div>
+
+        <div id="content" class="content">
+
+<main role="main">
+    <article role="article" class="post type-post format-standard hentry">
+        <header class="post-header">
+            <h1>Reddit Urls Scraper</h1>
+            <div class="post-details">
+                <a rel="bookmark">
+                    <time datetime="2020-03-21T321:530:506">2020-03-21</time>
+                </a>
+				
+<span style="float: right;">
+    <div id="fb-root" style="height: 100%;"></div>
+    
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+    
+    <div class="fb-share-button" data-href="/reddit-urls-scraper/" data-layout="button_count" data-size="small">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2freddit-urls-scraper%2f" class="fb-xfbml-parse-ignore">Share</a>
+    </div>
+    &nbsp;
+    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Reddit Urls Scraper" data-url="/reddit-urls-scraper/" data-show-count="false">Tweet</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    &nbsp;
+    
+</span>
+
+            </div>
+        </header>
+
+        <div class="post-content">
+            <p>Just showcasing a small command line tool to fetch urls from posts from a given subreddit.</p>
+
+<p>Can set different parameters via command line like saving to a file or STDOUT or limit the number of fetched urls.</p>
+
+<p>The code can be found in <a href="https://github.com/miguelabate/reddit-scraper">https://github.com/miguelabate/reddit-scraper</a></p>
+
+<p>Also, it&rsquo;s a good example of how to use the library <a href="github.com/devfacet/gocmd">github.com/devfacet/gocmd</a> to build command line applications</p>
+
+<h1 id="example-call">Example call</h1>
+
+<pre><code>./reddit-scraper urls -s Pics -l 10 -v
+</code></pre>
+
+<p>Result:</p>
+
+<pre><code>Request to: https://www.reddit.com/r/Pics/.json?limit=100&amp;after=
+Urls fetched: 102
+https://www.reddit.com/r/pics/comments/fjn0j9/important_psa_no_you_did_not_win_a_gift_card/
+https://www.reddit.com/r/pics/comments/fk5iz1/rpics_is_looking_for_new_moderators_apply_within/
+https://i.redd.it/rocsc5h0n0o41.jpg
+https://i.imgur.com/yvIuiU8.jpg
+https://i.redd.it/i26pv2exb0o41.jpg
+https://i.imgur.com/U4B9dYV.jpg
+https://i.imgur.com/vis0ggq.jpg
+https://i.redd.it/hwjcoj3db1o41.jpg
+https://i.redd.it/q3dyobfzcxn41.jpg
+https://i.redd.it/3aobmod56xn41.jpg
+Total Urls fetched: 10
+</code></pre>
+        </div>
+
+        <footer class="post-footer">
+            
+            <span class="post-categories">
+                
+                <a href="/categories/tool" rel="tag">Tool</a>
+                
+            </span>
+            
+
+            
+            <span class="post-tags">
+                
+                <a href="/tags/go" rel="tag">go</a>&emsp;
+                
+                <a href="/tags/golang" rel="tag">golang</a>&emsp;
+                
+                <a href="/tags/reddit" rel="tag">reddit</a>&emsp;
+                
+                <a href="/tags/command-line" rel="tag">command line</a>&emsp;
+                
+                <a href="/tags/tool" rel="tag">tool</a>&emsp;
+                
+            </span>
+            
+        </footer>
+        
+<table cellspacing="15" style="width:100%; border: none;">
+    <tr>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+    </tr>
+</table>
+
+        
+	
+	
+	<h4>Related Posts</h4>
+	<ol style="margin-left: 30px; list-style-type: decimal;">
+		
+		<li><strong><a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a></strong></li>
+		
+	</ol>
+	
+
+    </article>
+
+    
+    <nav class="navigation post-navigation" role="navigation">
+        <div class="nav-links">
+            <div class="nav-previous">
+                
+                <a class="previous" href="/protobuf-communication-between-js-client-and-go-server/"> Protobuf communication between Js-client and Go-server</a>
+                
+            </div>
+            <div class="nav-next">
+                
+                <a class="next" href="/bulk-ebook-converter/"> Bulk eBook Converter</a>
+                
+            </div>
+        </div>
+    </nav>
+    <section>
+        
+    </section>
+    
+
+</main>
+
+
+        <div class="sidebar1 widgets columns-1">
+
+    <aside>
+    
+</aside>
+    <aside class="widget widget_categories">
+        <h2>Categories</h2>
+        <ul class="widget__list"><li class="cat-item cat-item-2">
+                <a href="/categories/bash">Bash (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/poc">POC (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/tool">Tool (2)</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_tag_cloud">
+        <h2>Tags</h2>
+        <div class="tagcloud"><a class="tag-cloud-link" href="/tags/bash" title="bash" style="font-size: 12pt;">bash</a>&emsp;<a class="tag-cloud-link" href="/tags/command-line" title="command-line" style="font-size: 12pt;">command line</a>&emsp;<a class="tag-cloud-link" href="/tags/ebook" title="ebook" style="font-size: 12pt;">eBook</a>&emsp;<a class="tag-cloud-link" href="/tags/go" title="go" style="font-size: 12pt;">go</a>&emsp;<a class="tag-cloud-link" href="/tags/golang" title="golang" style="font-size: 12pt;">golang</a>&emsp;<a class="tag-cloud-link" href="/tags/html" title="html" style="font-size: 12pt;">html</a>&emsp;<a class="tag-cloud-link" href="/tags/js" title="js" style="font-size: 12pt;">js</a>&emsp;<a class="tag-cloud-link" href="/tags/linux" title="linux" style="font-size: 12pt;">linux</a>&emsp;<a class="tag-cloud-link" href="/tags/protobuf" title="protobuf" style="font-size: 12pt;">protobuf</a>&emsp;<a class="tag-cloud-link" href="/tags/reddit" title="reddit" style="font-size: 12pt;">reddit</a>&emsp;<a class="tag-cloud-link" href="/tags/tool" title="tool" style="font-size: 12pt;">tool</a>&emsp;<a class="tag-cloud-link" href="/tags/websocket" title="websocket" style="font-size: 12pt;">websocket</a>&emsp;
+        </div>
+    </aside>
+
+    <aside class="widget widget_recent_entries">
+        <h2>Recent Posts</h2>
+        <ul>
+            <li>
+                <a href="/bulk-ebook-converter/">Bulk eBook Converter</a>
+            </li>
+            <li>
+                <a href="/reddit-urls-scraper/">Reddit Urls Scraper</a>
+            </li>
+            <li>
+                <a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_archive">
+        <h2>Archives</h2>
+        <ul>
+        </ul>
+    </aside>
+
+</div>
+        </div>
+        </div>
+<footer role="contentinfo" class="document-footer contentinfo widgets columns-1">
+
+    <aside class="widget widget_text">
+        <div class="textwidget">
+            <p>© Miguel Abate / Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/tosi29/inkblotty" target="_blank">Inkblotty</a></p>
+        </div>
+    </aside>
+</footer>
+</div>
+
+    </body>
+</html>
