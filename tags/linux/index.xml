@@ -17,7 +17,7 @@
       <pubDate>Sat, 04 Apr 2020 18:50:28 +0200</pubDate>
       
       <guid>/bulk-ebook-converter/</guid>
-      <description>&lt;p&gt;Small script that wraps the ebook-converter tool for a convenient bulk usage.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Script that wraps the ebook-converter linux command line tool for a convenient bulk usage.&lt;/p&gt;</description>
     </item>
     
   </channel>
