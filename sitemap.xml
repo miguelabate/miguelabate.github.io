@@ -3,6 +3,70 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/categories/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/devops/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/nginx-ssl-reverse-proxy/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/poc/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/server/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/devops/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/nginx/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/ssl/</loc>
+    <lastmod>2020-11-14T12:31:11+01:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/categories/bash/</loc>
     <lastmod>2020-04-04T18:50:28+02:00</lastmod>
     <priority>0</priority>
@@ -11,29 +75,6 @@
   <url>
     <loc>/bulk-ebook-converter/</loc>
     <lastmod>2020-04-04T18:50:28+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
-    <lastmod>2020-04-04T18:50:28+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2020-04-04T18:50:28+02:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2020-04-04T18:50:28+02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-04-04T18:50:28+02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

@@ -6,10 +6,28 @@
     <description>Recent content in Categories on Miguel Abate</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Apr 2020 18:50:28 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2020 12:31:11 +0100</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>DevOps</title>
+      <link>/categories/devops/</link>
+      <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
+      
+      <guid>/categories/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Server</title>
+      <link>/categories/server/</link>
+      <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
+      
+      <guid>/categories/server/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Bash</title>

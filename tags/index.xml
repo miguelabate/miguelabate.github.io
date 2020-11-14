@@ -6,10 +6,46 @@
     <description>Recent content in Tags on Miguel Abate</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Apr 2020 18:50:28 +0200</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2020 12:31:11 +0100</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>POC</title>
+      <link>/tags/poc/</link>
+      <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
+      
+      <guid>/tags/poc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devops</title>
+      <link>/tags/devops/</link>
+      <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
+      
+      <guid>/tags/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nginx</title>
+      <link>/tags/nginx/</link>
+      <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
+      
+      <guid>/tags/nginx/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ssl</title>
+      <link>/tags/ssl/</link>
+      <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
+      
+      <guid>/tags/ssl/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>bash</title>
