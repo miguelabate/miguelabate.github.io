@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>devops on Miguel Abate</title>
+    <link>//localhost:1313/tags/devops/</link>
+    <description>Recent content in devops on Miguel Abate</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 14 Nov 2020 12:31:11 +0100</lastBuildDate>
+    
+	<atom:link href="//localhost:1313/tags/devops/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nginx SSL Reverse Proxy</title>
+      <link>//localhost:1313/nginx-ssl-reverse-proxy/</link>
+      <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
+      
+      <guid>//localhost:1313/nginx-ssl-reverse-proxy/</guid>
+      <description>&lt;p&gt;In this post I would like to show a minimal configuration to set up a Nginx server with SSL termination
+and reverse proxy to another service. Also, I set up an static html content serving.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
