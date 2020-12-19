@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Bits on Miguel Abate</title>
-    <link>//localhost:1313/categories/bits/</link>
+    <link>/categories/bits/</link>
     <description>Recent content in Bits on Miguel Abate</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 Dec 2020 12:31:11 +0100</lastBuildDate>
+    <lastBuildDate>Sat, 19 Dec 2020 10:31:11 +0100</lastBuildDate>
     
-	<atom:link href="//localhost:1313/categories/bits/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/bits/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Leaflet animated marker</title>
-      <link>//localhost:1313/leaflet-animated-marker/</link>
-      <pubDate>Thu, 17 Dec 2020 12:31:11 +0100</pubDate>
+      <link>/leaflet-animated-marker/</link>
+      <pubDate>Sat, 19 Dec 2020 10:31:11 +0100</pubDate>
       
-      <guid>//localhost:1313/leaflet-animated-marker/</guid>
-      <description>Extending LeafLet library to cerat an animated marker
+      <guid>/leaflet-animated-marker/</guid>
+      <description>Extending Leaflet library to create an animated marker
 </description>
     </item>
     
