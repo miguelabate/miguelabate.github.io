@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <title>Leaflet animated marker - Miguel Abate</title>
+
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' href='//localhost:1313/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='//localhost:1313/css/custom.css' type='text/css' media='all' />
+        
+</head>
+    <body class="two-column">
+        <a href="#content">Skip to content</a>
+<div class="wrapper">
+    <header role="banner" class="banner widgets columns-1">
+        <a href="/" rel="home">
+            <h1 class="site" style="font-size:40px;">Miguel Abate</h1>
+            <p></p>
+        </a>
+        <nav role="navigation" aria-label="Primary Navigation">
+
+            <ul class="menu">
+                <li class="menu-item "><a class="menu__link" href="/about/">ABOUT</a></li>
+                <li class="menu-item "><a class="menu__link" href="/blog/">POSTS</a></li>
+            </ul>
+            <select onChange="location.href=value;">
+                <option value="/about/" class="menu-item menu-item-type-custom menu-item-object-custom" >ABOUT</option>
+                <option value="/blog/" class="menu-item menu-item-type-custom menu-item-object-custom" >POSTS</option>
+            </select>
+        </nav>
+    </header>
+
+    <br>
+    <div style="width: 100%; max-height: 100px; text-align: center;">
+       
+</div>
+
+    <div class="breadcrumbs">
+        
+    </div>
+
+        <div id="content" class="content">
+
+<main role="main">
+    <article role="article" class="post type-post format-standard hentry">
+        <header class="post-header">
+            <h1>Leaflet animated marker</h1>
+            <div class="post-details">
+                <a rel="bookmark">
+                    <time datetime="2020-12-17T1217:1231:116">2020-12-17</time>
+                </a>
+				
+<span style="float: right;">
+    <div id="fb-root" style="height: 100%;"></div>
+    
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+    
+    <div class="fb-share-button" data-href="//localhost:1313/leaflet-animated-marker/" data-layout="button_count" data-size="small">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2f%2flocalhost%3a1313%2fleaflet-animated-marker%2f" class="fb-xfbml-parse-ignore">Share</a>
+    </div>
+    &nbsp;
+    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Leaflet animated marker" data-url="//localhost:1313/leaflet-animated-marker/" data-show-count="false">Tweet</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    &nbsp;
+    
+</span>
+
+            </div>
+        </header>
+
+        <div class="post-content">
+            <p>
+	Using the extension functionalities of <a href="https://leafletjs.com/">Leaflet library</a>, I'll be creating an animated marker that looks like this:
+</p>
+<html>
+<head>
+	<meta charset="utf-8" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+</head>
+<body>
+
+<div id="mapid" style="width: 600px; height: 400px;"></div>
+<script>
+	var greenIcon = L.icon({
+		iconUrl: '/leaflet/leaf-green.png',
+		iconSize:     [38, 95], // size of the icon
+		shadowSize:   [50, 64], // size of the shadow
+		iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+	var redIcon = L.icon({
+		iconUrl: '/leaflet/leaf-red.png',
+
+		iconSize:     [38, 95], // size of the icon
+		shadowSize:   [50, 64], // size of the shadow
+		iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+	var orangeIcon = L.icon({
+		iconUrl: '/leaflet/leaf-orange.png',
+
+		iconSize:     [38, 95], // size of the icon
+		shadowSize:   [50, 64], // size of the shadow
+		iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+		popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+	});
+	var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+
+	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+				'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mymap);
+
+	var MyAnimatedMarker = L.Marker.extend({
+
+		options: {
+		},
+
+		initialize: function(latlng, options) {
+			L.Marker.prototype.initialize.call(this, latlng);
+			this.options.currentFrame = 0;
+			this.options.icon = options.iconSet[this.options.currentFrame];
+			L.Util.setOptions(this, options);
+		},
+
+		startAnimation: function () {
+			let self = this;
+			this.options.interval = setInterval(function(){
+
+				if(self.options.currentFrame == self.options.iconSet.length) {
+					self.options.currentFrame = 0;
+				}
+				L.Marker.prototype.setIcon.call(self, self.options.iconSet[self.options.currentFrame]);
+				self.options.currentFrame++;
+			}, self.options.animationSpeed);
+		},
+		stopAnimation: function () {
+			clearInterval(this.options.interval);
+		},
+		setAnimationSpeed: function (speedMillis) {
+			this.options.animationSpeed = speedMillis;
+			this.stopAnimation();
+			this.startAnimation();
+		},
+
+	});
+
+	var marker = new MyAnimatedMarker([51.5, -0.09], {iconSet: [greenIcon, redIcon, orangeIcon], animationSpeed: 300});
+	marker.addTo(mymap)
+			.bindPopup("Faster animation").openPopup();
+	marker.startAnimation();
+
+	var marker2 = new MyAnimatedMarker([51.5, -0.080], {iconSet: [greenIcon, redIcon, orangeIcon], animationSpeed: 700});
+	marker2.addTo(mymap).bindPopup("Slower animation");
+	marker2.startAnimation();
+
+</script>
+<p>
+	<a href="https://github.com/miguelabate/html-bits/blob/master/exampleLeaflet.html">Full code here</a><br><br>
+	I want to be able to assign a set of icons (instead of only one as happens in the default marker implementation) and a speed in milliseconds. <br>
+	The marker will switch through the icons according to the passed speed.
+</p>
+<p>
+	To achieve this, I'll extend the common leaflet Marker.
+</p>
+<p>
+	I will use the <a href="https://leafletjs.com/examples/extending/extending-1-classes.html">L.Marker.extend(...)</a> method to create a new marker prototype that provides the animation functionalities that we need.
+</p>
+  <pre>
+    <code>
+var MyAnimatedMarker = L.Marker.extend({
+
+	options: {
+	},
+
+	initialize: function(latlng, options) {
+		L.Marker.prototype.initialize.call(this, latlng);
+		this.options.currentFrame = 0;
+		this.options.icon = options.iconSet[this.options.currentFrame];
+		L.Util.setOptions(this, options);
+	},
+
+	startAnimation: function () {
+		let self = this;
+		this.options.interval = setInterval(function(){
+
+			if(self.options.currentFrame == self.options.iconSet.length) {
+				self.options.currentFrame = 0;
+			}
+			L.Marker.prototype.setIcon.call(self, self.options.iconSet[self.options.currentFrame]);
+			self.options.currentFrame++;
+		}, self.options.animationSpeed);
+	},
+
+	stopAnimation: function () {
+		clearInterval(this.options.interval);
+	},
+
+	setAnimationSpeed: function (speedMillis) {
+		this.options.animationSpeed = speedMillis;
+		this.stopAnimation();
+		this.startAnimation();
+	},
+
+});
+    </code>
+  </pre>
+<style>
+	pre{
+		font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+		margin-bottom: 10px;
+		overflow: auto;
+		width: auto;
+		padding: 5px;
+		background-color: #eee;
+		width: 650px!ie7;
+		padding-bottom: 20px!ie7;
+		max-height: 600px;
+	}
+</style>
+<p>
+	Then I can easily use the new defined prototype "MyAnimatedMarker" to do something like this:
+</p>
+
+<pre>
+    <code>
+var greenIcon = L.icon({
+	iconUrl: '/leaflet/leaf-green.png',
+	iconSize:     [38, 95],
+	shadowSize:   [50, 64],
+	iconAnchor:   [22, 94],
+	popupAnchor:  [-3, -76]
+});
+var redIcon = L.icon({
+	iconUrl: '/leaflet/leaf-red.png',
+	iconSize:     [38, 95],
+	shadowSize:   [50, 64],
+	iconAnchor:   [22, 94],
+	popupAnchor:  [-3, -76]
+});
+var orangeIcon = L.icon({
+	iconUrl: '/leaflet/leaf-orange.png',
+
+	iconSize:     [38, 95],
+	shadowSize:   [50, 64],
+	iconAnchor:   [22, 94],
+	popupAnchor:  [-3, -76]
+});
+
+var marker = new MyAnimatedMarker([51.5, -0.09], {iconSet: [greenIcon, redIcon, orangeIcon], animationSpeed: 300});
+marker.addTo(mymap).bindPopup("Faster animation").openPopup();
+marker.startAnimation();
+    </code>
+  </pre>
+
+<p>
+	So, the newly defined MyAnimatedMarker prototype behaves just like the normal marker with the addition that you can pass an "iconSet" and "animationSpeed".<br>
+	It also provides 3 methods to interact with it:<br><br>
+	+ startAnimation()<br>
+	+ stopAnimation()<br>
+	+ setAnimationSpeed(speedInMillis)<br>
+</p>
+
+        </div>
+
+        <footer class="post-footer">
+            
+            <span class="post-categories">
+                
+                <a href="//localhost:1313/categories/bits" rel="tag">Bits</a>
+                
+                <a href="//localhost:1313/categories/frontend" rel="tag">Frontend</a>
+                
+            </span>
+            
+
+            
+            <span class="post-tags">
+                
+                <a href="//localhost:1313/tags/js" rel="tag">js</a>&emsp;
+                
+                <a href="//localhost:1313/tags/leaflet" rel="tag">leaflet</a>&emsp;
+                
+                <a href="//localhost:1313/tags/geo" rel="tag">geo</a>&emsp;
+                
+            </span>
+            
+        </footer>
+        
+<table cellspacing="15" style="width:100%; border: none;">
+    <tr>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+    </tr>
+</table>
+
+        
+	
+	
+	<h4>Related Posts</h4>
+	<ol style="margin-left: 30px; list-style-type: decimal;">
+		
+		<li><strong><a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a></strong></li>
+		
+	</ol>
+	
+
+    </article>
+
+    
+    <nav class="navigation post-navigation" role="navigation">
+        <div class="nav-links">
+            <div class="nav-previous">
+                
+                <a class="previous" href="//localhost:1313/nginx-ssl-reverse-proxy/"> Nginx SSL Reverse Proxy</a>
+                
+            </div>
+            <div class="nav-next">
+                
+            </div>
+        </div>
+    </nav>
+    <section>
+        
+    </section>
+    
+
+</main>
+
+
+        <div class="sidebar1 widgets columns-1">
+
+    <aside>
+    
+</aside>
+    <aside class="widget widget_categories">
+        <h2>Categories</h2>
+        <ul class="widget__list"><li class="cat-item cat-item-2">
+                <a href="/categories/bash">Bash (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/bits">Bits (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/devops">DevOps (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/frontend">Frontend (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/poc">POC (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/server">Server (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/tool">Tool (2)</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_tag_cloud">
+        <h2>Tags</h2>
+        <div class="tagcloud"><a class="tag-cloud-link" href="/tags/bash" title="bash" style="font-size: 12pt;">bash</a>&emsp;<a class="tag-cloud-link" href="/tags/command-line" title="command-line" style="font-size: 12pt;">command line</a>&emsp;<a class="tag-cloud-link" href="/tags/devops" title="devops" style="font-size: 12pt;">devops</a>&emsp;<a class="tag-cloud-link" href="/tags/ebook" title="ebook" style="font-size: 12pt;">eBook</a>&emsp;<a class="tag-cloud-link" href="/tags/geo" title="geo" style="font-size: 12pt;">geo</a>&emsp;<a class="tag-cloud-link" href="/tags/go" title="go" style="font-size: 12pt;">go</a>&emsp;<a class="tag-cloud-link" href="/tags/golang" title="golang" style="font-size: 12pt;">golang</a>&emsp;<a class="tag-cloud-link" href="/tags/html" title="html" style="font-size: 12pt;">html</a>&emsp;<a class="tag-cloud-link" href="/tags/js" title="js" style="font-size: 12pt;">js</a>&emsp;<a class="tag-cloud-link" href="/tags/leaflet" title="leaflet" style="font-size: 12pt;">leaflet</a>&emsp;<a class="tag-cloud-link" href="/tags/linux" title="linux" style="font-size: 12pt;">linux</a>&emsp;<a class="tag-cloud-link" href="/tags/nginx" title="nginx" style="font-size: 12pt;">nginx</a>&emsp;<a class="tag-cloud-link" href="/tags/poc" title="poc" style="font-size: 12pt;">POC</a>&emsp;<a class="tag-cloud-link" href="/tags/protobuf" title="protobuf" style="font-size: 12pt;">protobuf</a>&emsp;<a class="tag-cloud-link" href="/tags/reddit" title="reddit" style="font-size: 12pt;">reddit</a>&emsp;<a class="tag-cloud-link" href="/tags/ssl" title="ssl" style="font-size: 12pt;">ssl</a>&emsp;<a class="tag-cloud-link" href="/tags/tool" title="tool" style="font-size: 12pt;">tool</a>&emsp;<a class="tag-cloud-link" href="/tags/websocket" title="websocket" style="font-size: 12pt;">websocket</a>&emsp;
+        </div>
+    </aside>
+
+    <aside class="widget widget_recent_entries">
+        <h2>Recent Posts</h2>
+        <ul>
+            <li>
+                <a href="/leaflet-animated-marker/">Leaflet animated marker</a>
+            </li>
+            <li>
+                <a href="/nginx-ssl-reverse-proxy/">Nginx SSL Reverse Proxy</a>
+            </li>
+            <li>
+                <a href="/bulk-ebook-converter/">Bulk eBook Converter</a>
+            </li>
+            <li>
+                <a href="/reddit-urls-scraper/">Reddit Urls Scraper</a>
+            </li>
+            <li>
+                <a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_archive">
+        <h2>Archives</h2>
+        <ul>
+        </ul>
+    </aside>
+
+</div>
+        </div>
+        </div>
+<footer role="contentinfo" class="document-footer contentinfo widgets columns-1">
+
+    <aside class="widget widget_text">
+        <div class="textwidget">
+            <p>© Miguel Abate / Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/tosi29/inkblotty" target="_blank">Inkblotty</a></p>
+        </div>
+    </aside>
+</footer>
+</div>
+
+    <script data-no-instant>document.write('<script src="/livereload.js?port=1313&mindelay=10"></' + 'script>')</script></body>
+</html>
