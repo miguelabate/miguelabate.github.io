@@ -3,13 +3,81 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/categories/bits/</loc>
-    <lastmod>2020-12-19T10:31:11+01:00</lastmod>
+    <loc>/post/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/links/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/about/</loc>
+    <lastmod>2019-07-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2021-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/go/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/jwt-token-auth-in-golang/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/programming/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/go/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/jwt/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/programming/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/server/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/bits/</loc>
     <lastmod>2020-12-19T10:31:11+01:00</lastmod>
     <priority>0</priority>
   </url>
@@ -23,23 +91,6 @@
   <url>
     <loc>/leaflet-animated-marker/</loc>
     <lastmod>2020-12-19T10:31:11+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2020-12-19T10:31:11+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/post/</loc>
-    <lastmod>2020-12-19T10:31:11+01:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-12-19T10:31:11+01:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -154,12 +205,6 @@
   </url>
   
   <url>
-    <loc>/tags/go/</loc>
-    <lastmod>2020-03-21T17:30:50+01:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/tags/golang/</loc>
     <lastmod>2020-03-21T17:30:50+01:00</lastmod>
     <priority>0</priority>
@@ -198,11 +243,6 @@
     <loc>/tags/websocket/</loc>
     <lastmod>2019-12-05T14:29:51+02:00</lastmod>
     <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/about/</loc>
-    <lastmod>2019-07-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>

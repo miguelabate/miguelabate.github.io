@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <title>Jwt Token Auth in Golang - Miguel Abate</title>
+
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' href='/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/css/custom.css' type='text/css' media='all' />
+        
+</head>
+    <body class="two-column">
+        <a href="#content">Skip to content</a>
+<div class="wrapper">
+    <header role="banner" class="banner widgets columns-1">
+        <a href="/" rel="home">
+            <h1 class="site" style="font-size:40px;">Miguel Abate</h1>
+            <p></p>
+        </a>
+        <nav role="navigation" aria-label="Primary Navigation">
+
+            <ul class="menu">
+                <li class="menu-item "><a class="menu__link" href="/post/">POSTS</a></li>
+                <li class="menu-item "><a class="menu__link" href="/links/">LINKS</a></li>
+                <li class="menu-item "><a class="menu__link" href="/about/">ABOUT ME</a></li>
+            </ul>
+            <select onChange="location.href=value;">
+                <option value="/post/" class="menu-item menu-item-type-custom menu-item-object-custom" >POSTS</option>
+                <option value="/links/" class="menu-item menu-item-type-custom menu-item-object-custom" >LINKS</option>
+                <option value="/about/" class="menu-item menu-item-type-custom menu-item-object-custom" >ABOUT ME</option>
+            </select>
+        </nav>
+    </header>
+
+    <br>
+    <div style="width: 100%; max-height: 100px; text-align: center;">
+       
+</div>
+
+    <div class="breadcrumbs">
+        
+    </div>
+
+        <div id="content" class="content">
+
+<main role="main">
+    <article role="article" class="post type-post format-standard hentry">
+        <header class="post-header">
+            <h1>Jwt Token Auth in Golang</h1>
+            <div class="post-details">
+                <a rel="bookmark">
+                    <time datetime="2021-02-21T221:1250:286">2021-02-21</time>
+                </a>
+				
+<span style="float: right;">
+    <div id="fb-root" style="height: 100%;"></div>
+    
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+    
+    <div class="fb-share-button" data-href="/jwt-token-auth-in-golang/" data-layout="button_count" data-size="small">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2fjwt-token-auth-in-golang%2f" class="fb-xfbml-parse-ignore">Share</a>
+    </div>
+    &nbsp;
+    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Jwt Token Auth in Golang" data-url="/jwt-token-auth-in-golang/" data-show-count="false">Tweet</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    &nbsp;
+    
+</span>
+
+            </div>
+        </header>
+
+        <div class="post-content">
+            <p>A Go module that exposes basic operations for user management in a REST context (signup, signin, refresh, logout) using JWT.</p>
+
+<p>For more detailed information about the JSON Web Token (JWT) standard, you can look <a href="https://jwt.io/introduction">here</a></p>
+
+<p>Some features in this implementation:</p>
+
+<ul>
+<li>User signup, signin, refresh and logout supported</li>
+<li>The JWT Token is passed in the requests&rsquo; header like: &ldquo;Authorization: Bearer THE_TOKEN&rdquo;</li>
+<li>User management with persistence on disk (simple text file)</li>
+<li>User log out feature using jwtToken white listing.</li>
+<li>Hash the passwords stored locally</li>
+<li>Support saving roles for the user</li>
+</ul>
+
+<p>You can take a <a href="https://github.com/miguelabate/jwt-go-mabate">look at the code</a></p>
+
+<h2 id="building-and-running">Building and running</h2>
+
+<pre><code class="language-sh">go build -o jwt-go-server
+./jwt-go-server
+</code></pre>
+
+<h2 id="sign-up-a-new-user">Sign up a new user:</h2>
+
+<pre><code>curl -X POST -i -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; --data '{&quot;username&quot;:&quot;newuser&quot;,&quot;password&quot;:&quot;newpass&quot;}' http://localhost:8000/signup
+</code></pre>
+
+<p>Upon sign up the user is created and saved in the server users file (by default &ldquo;usersDB&rdquo; created in the same directory where the server is running).<br />
+The user is created with the default role &ldquo;CLIENT&rdquo;</p>
+
+<h2 id="sign-in-with-the-new-user">Sign in with the new user:</h2>
+
+<pre><code>curl -X POST -i -H &quot;Accept: application/json&quot; -H &quot;Content-Type: application/json&quot; --data '{&quot;username&quot;:&quot;newuser&quot;,&quot;password&quot;:&quot;newpass&quot;}' http://localhost:8000/signin
+</code></pre>
+
+<p>If the sign in is valid, in the response you get the JWT token valid for X time (configurable, default is 5 minutes) to be used in further requests with Authorization.</p>
+
+<h2 id="example-endpoint-that-enforces-authentication">Example endpoint that enforces authentication</h2>
+
+<pre><code>curl -X GET -i -H &quot;Authorization: Bearer &lt;your-jwt-token&gt;&quot; http://localhost:8000/welcome
+</code></pre>
+
+<p>In this example, we call a secured endpoint that checks the JWT token. If it&rsquo;s valid,
+not expired and if any of the roles of the user is configured for this endpoint, you&rsquo;ll get the response.</p>
+
+<p>An example for this output:</p>
+
+<pre><code>curl -X GET -i -H &quot;Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld3VzZXIiLCJyb2xlcyI6WyJDTElFTlQiXSwiZXhwIjoxNjE0NDIwNDEwfQ.a8rGllUEjkPzM4vgnwD0PaIvRSmx5fZ8glGC-QzVBaY&quot; http://localhost:8000/welcome
+HTTP/1.1 200 OK
+
+Welcome newuser!
+ Your roles are: [CLIENT]
+</code></pre>
+
+<h2 id="refresh-endpoint-to-get-a-new-token">Refresh endpoint to get a new token</h2>
+
+<pre><code>curl -X GET -i -H &quot;Authorization: Bearer &lt;your-jwt-token&gt;&quot; http://localhost:8000/refresh
+</code></pre>
+
+<p>A new JWT token will be issued only if the current token is within some X time (configurable, default is 30 seconds) before expiration time. Otherwise it returns the same token.</p>
+
+<h2 id="logout">Logout</h2>
+
+<pre><code>curl -X GET -i -H &quot;Authorization: Bearer &lt;your-jwt-token&gt;&quot; http://localhost:8000/logout
+</code></pre>
+
+<p>It takes the passed token out of the whitelist, it cannot be used again (so it works as a logout)</p>
+
+<h2 id="main-code-that-can-be-used-as-template">Main code that can be used as template</h2>
+
+<p>The following code snippet shows how to use the library.<br />
+Adding routes to the basic user management operations (SignUp, SignIn, Refress, LogOut).<br />
+Also, it shows how to wrap your custom endpoints (E.g: /welcome) so they are secured by JwtToken</p>
+
+<pre><code>package main
+
+import (
+	&quot;fmt&quot;
+	&quot;github.com/dgrijalva/jwt-go&quot;
+	&quot;github.com/miguelabate/jwt-go-mabate/jwthandler&quot;
+	&quot;github.com/miguelabate/jwt-go-mabate/users&quot;
+	&quot;log&quot;
+	&quot;net/http&quot;
+)
+
+func main() {
+	fmt.Println(&quot;Starting JWT Go server ...&quot;)
+	// provided
+	http.HandleFunc(&quot;/signin&quot;, jwthandler.Signin)
+	http.HandleFunc(&quot;/signup&quot;, jwthandler.Signup)
+	http.HandleFunc(&quot;/refresh&quot;, jwthandler.Refresh)
+	http.HandleFunc(&quot;/logout&quot;, jwthandler.Logout)
+
+	// custom
+	http.HandleFunc(&quot;/welcome&quot;, jwthandler.WithJwtCheck(Welcome, []string{&quot;CLIENT&quot;, &quot;ADMIN&quot;}, true))
+
+	// can override some config values
+	//users.UsersFileLocation = &quot;altUserDB&quot;
+	//jwthandler.JwtTokenLifeInMinutes = 10
+	//jwthandler.JwtTokenRefreshPeriodInSeconds = 60
+
+	users.LoadUsersFromDB()
+
+	//// start the server on port 8000
+	log.Fatal(http.ListenAndServe(&quot;:8000&quot;, nil))
+
+}
+
+func Welcome(w http.ResponseWriter, r *http.Request, jwtToken *jwt.Token, claims *jwthandler.Claims) {
+	// username given in the token
+	w.Write([]byte(fmt.Sprintf(&quot;Welcome %s!\n Your roles are: %s&quot;, claims.Username, claims.Roles)))
+}
+</code></pre>
+
+<p>The code can be found in <a href="https://github.com/miguelabate/jwt-go-mabate">https://github.com/miguelabate/jwt-go-mabate</a></p>
+        </div>
+
+        <footer class="post-footer">
+            
+            <span class="post-categories">
+                
+                <a href="/categories/go" rel="tag">Go</a>
+                
+                <a href="/categories/programming" rel="tag">Programming</a>
+                
+            </span>
+            
+
+            
+            <span class="post-tags">
+                
+                <a href="/tags/go" rel="tag">go</a>&emsp;
+                
+                <a href="/tags/server" rel="tag">server</a>&emsp;
+                
+                <a href="/tags/jwt" rel="tag">jwt</a>&emsp;
+                
+                <a href="/tags/programming" rel="tag">programming</a>&emsp;
+                
+            </span>
+            
+        </footer>
+        
+<table cellspacing="15" style="width:100%; border: none;">
+    <tr>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+    </tr>
+</table>
+
+        
+	
+	
+	<h4>Related Posts</h4>
+	<ol style="margin-left: 30px; list-style-type: decimal;">
+		
+		<li><strong><a href="/reddit-urls-scraper/">Reddit Urls Scraper</a></strong></li>
+		
+		<li><strong><a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a></strong></li>
+		
+	</ol>
+	
+
+    </article>
+
+    
+    <nav class="navigation post-navigation" role="navigation">
+        <div class="nav-links">
+            <div class="nav-previous">
+                
+                <a class="previous" href="/leaflet-animated-marker/"> Leaflet animated marker</a>
+                
+            </div>
+            <div class="nav-next">
+                
+            </div>
+        </div>
+    </nav>
+    <section>
+        
+    </section>
+    
+
+</main>
+
+
+        <div class="sidebar1 widgets columns-1">
+
+    <aside>
+    
+</aside>
+    <aside class="widget widget_categories">
+        <h2>Categories</h2>
+        <ul class="widget__list"><li class="cat-item cat-item-2">
+                <a href="/categories/bash">Bash (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/bits">Bits (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/devops">DevOps (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/frontend">Frontend (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/go">Go (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/poc">POC (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/programming">Programming (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/server">Server (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/tool">Tool (2)</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_tag_cloud">
+        <h2>Tags</h2>
+        <div class="tagcloud"><a class="tag-cloud-link" href="/tags/bash" title="bash" style="font-size: 12pt;">bash</a>&emsp;<a class="tag-cloud-link" href="/tags/command-line" title="command-line" style="font-size: 12pt;">command line</a>&emsp;<a class="tag-cloud-link" href="/tags/devops" title="devops" style="font-size: 12pt;">devops</a>&emsp;<a class="tag-cloud-link" href="/tags/ebook" title="ebook" style="font-size: 12pt;">eBook</a>&emsp;<a class="tag-cloud-link" href="/tags/geo" title="geo" style="font-size: 12pt;">geo</a>&emsp;<a class="tag-cloud-link" href="/tags/go" title="go" style="font-size: 12pt;">go</a>&emsp;<a class="tag-cloud-link" href="/tags/golang" title="golang" style="font-size: 12pt;">golang</a>&emsp;<a class="tag-cloud-link" href="/tags/html" title="html" style="font-size: 12pt;">html</a>&emsp;<a class="tag-cloud-link" href="/tags/js" title="js" style="font-size: 12pt;">js</a>&emsp;<a class="tag-cloud-link" href="/tags/jwt" title="jwt" style="font-size: 12pt;">jwt</a>&emsp;<a class="tag-cloud-link" href="/tags/leaflet" title="leaflet" style="font-size: 12pt;">leaflet</a>&emsp;<a class="tag-cloud-link" href="/tags/linux" title="linux" style="font-size: 12pt;">linux</a>&emsp;<a class="tag-cloud-link" href="/tags/nginx" title="nginx" style="font-size: 12pt;">nginx</a>&emsp;<a class="tag-cloud-link" href="/tags/poc" title="poc" style="font-size: 12pt;">POC</a>&emsp;<a class="tag-cloud-link" href="/tags/programming" title="programming" style="font-size: 12pt;">programming</a>&emsp;<a class="tag-cloud-link" href="/tags/protobuf" title="protobuf" style="font-size: 12pt;">protobuf</a>&emsp;<a class="tag-cloud-link" href="/tags/reddit" title="reddit" style="font-size: 12pt;">reddit</a>&emsp;<a class="tag-cloud-link" href="/tags/server" title="server" style="font-size: 12pt;">server</a>&emsp;<a class="tag-cloud-link" href="/tags/ssl" title="ssl" style="font-size: 12pt;">ssl</a>&emsp;<a class="tag-cloud-link" href="/tags/tool" title="tool" style="font-size: 12pt;">tool</a>&emsp;<a class="tag-cloud-link" href="/tags/websocket" title="websocket" style="font-size: 12pt;">websocket</a>&emsp;
+        </div>
+    </aside>
+
+    <aside class="widget widget_recent_entries">
+        <h2>Recent Posts</h2>
+        <ul>
+            <li>
+                <a href="/jwt-token-auth-in-golang/">Jwt Token Auth in Golang</a>
+            </li>
+            <li>
+                <a href="/leaflet-animated-marker/">Leaflet animated marker</a>
+            </li>
+            <li>
+                <a href="/nginx-ssl-reverse-proxy/">Nginx SSL Reverse Proxy</a>
+            </li>
+            <li>
+                <a href="/bulk-ebook-converter/">Bulk eBook Converter</a>
+            </li>
+            <li>
+                <a href="/reddit-urls-scraper/">Reddit Urls Scraper</a>
+            </li>
+            <li>
+                <a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_archive">
+        <h2>Archives</h2>
+        <ul>
+        </ul>
+    </aside>
+
+</div>
+        </div>
+        </div>
+<footer role="contentinfo" class="document-footer contentinfo widgets columns-1">
+
+    <aside class="widget widget_text">
+        <div class="textwidget">
+            <p>© Miguel Abate / Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/tosi29/inkblotty" target="_blank">Inkblotty</a></p>
+        </div>
+    </aside>
+</footer>
+</div>
+
+    </body>
+</html>
