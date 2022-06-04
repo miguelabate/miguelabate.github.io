@@ -26,7 +26,7 @@
     <link rel='stylesheet' href='/css/toc.css' type='text/css' media='all' />
     
     <meta property="og:title" content="Aleka: a schema agnostic protobuf decoder" />
-<meta property="og:description" content="Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition" />
+<meta property="og:description" content="Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/aleka-a-schema-agnostic-protobuf-decoder/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-05-26T17:30:50+01:00" />
@@ -35,7 +35,7 @@
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Aleka: a schema agnostic protobuf decoder"/>
-<meta name="twitter:description" content="Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition"/>
+<meta name="twitter:description" content="Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition."/>
 
 </head>
 
@@ -100,12 +100,12 @@
         </header>
 
         <div class="post-content">
-            <p>Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition</p>
+            <p>Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition.</p>
 <p>If you usually work with protobuf services and messaging, there is probably a moment when you need to decode a protobuf binary message to do some kind of debugging.</p>
 <p>Normally, you would have your application with the compiled proto schema, and you can use that to parse and view the data of the message in question.</p>
 <p>But sometimes that is not the case, and you need some quick way of viewing into the contents of the message.</p>
-<p>Aleka is a tool to help here. You can check the source code here  <a href="https://github.com/miguelabate/aleka">https://github.com/miguelabate/aleka</a></p>
-<p>What <a href="https://github.com/miguelabate/aleka">Aleka</a> does, in short, is take a binary protobuf input (coded as base64 or hex string) and decode it following the <a href="https://developers.google.com/protocol-buffers/docs/encoding">Protobuf spec</a> generating a JSON output that can be easily read by a person.</p>
+<p>Aleka is a tool to assist in this case. The full source code here <a href="https://github.com/miguelabate/aleka">https://github.com/miguelabate/aleka</a></p>
+<p>What <a href="https://github.com/miguelabate/aleka">Aleka</a> does, in short, is take a binary protobuf input (coded as base64 or hex string) and decode it following the <a href="https://developers.google.com/protocol-buffers/docs/encoding">Protobuf spec</a> generating a JSON  as output.</p>
 <p>Of course there are some caveats when you try to decode without a schema as a reference:</p>
 <ul>
 <li>
