@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Miguel Abate</title>
@@ -6,11 +6,7 @@
     <description>Recent content on Miguel Abate</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 22 Feb 2021 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Links</title>
       <link>/links/</link>
@@ -30,13 +26,20 @@ Protobuf Decoder - Useful tool to decode protobuf binary messages.</description>
       <pubDate>Sat, 13 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>My name is Miguel. I&amp;rsquo;m a Software Engineer.
+      <description>My name is Miguel. I&amp;rsquo;m a Software Engineer with a background on Java and microservices developement.
 The purpose of this blog is to share my IT interests, personal projects and daily findings that might be helpful to others (and probably myself in the future) :)
 I&amp;rsquo;m experienced in web application developement involving Java, Microservices architecture, Protobuf, gRPC, Google Cloud Infrastructure and DevOps.
-Interested in Go, NodeJS, Machine Learning and NLP.
-Find me in:
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; 
-&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;</description>
+Interested in Rust, Go, Machine Learning and NLP.
+Find me in:</description>
+    </item>
+    
+    <item>
+      <title>Aleka: a schema agnostic protobuf decoder</title>
+      <link>/aleka-a-schema-agnostic-protobuf-decoder/</link>
+      <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
+      
+      <guid>/aleka-a-schema-agnostic-protobuf-decoder/</guid>
+      <description>&lt;p&gt;Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition&lt;/p&gt;</description>
     </item>
     
     <item>

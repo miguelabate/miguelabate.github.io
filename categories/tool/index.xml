@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tool on Miguel Abate</title>
@@ -6,10 +6,15 @@
     <description>Recent content in Tool on Miguel Abate</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Apr 2020 18:50:28 +0200</lastBuildDate>
-    
-	<atom:link href="/categories/tool/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate><atom:link href="/categories/tool/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Aleka: a schema agnostic protobuf decoder</title>
+      <link>/aleka-a-schema-agnostic-protobuf-decoder/</link>
+      <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
+      
+      <guid>/aleka-a-schema-agnostic-protobuf-decoder/</guid>
+      <description>&lt;p&gt;Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Bulk eBook Converter</title>

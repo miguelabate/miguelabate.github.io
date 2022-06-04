@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <title>Aleka: a schema agnostic protobuf decoder - Miguel Abate</title>
+
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    
+    <link rel='stylesheet' href='/css/style.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/css/custom.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/css/syntax.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/css/toc.css' type='text/css' media='all' />
+    
+    <meta property="og:title" content="Aleka: a schema agnostic protobuf decoder" />
+<meta property="og:description" content="Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/aleka-a-schema-agnostic-protobuf-decoder/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-05-26T17:30:50+01:00" />
+<meta property="article:modified_time" content="2022-05-26T17:30:50+01:00" />
+
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Aleka: a schema agnostic protobuf decoder"/>
+<meta name="twitter:description" content="Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition"/>
+
+</head>
+
+    <body class="two-column">
+        <a href="#content">Skip to content</a>
+<div class="wrapper">
+    <header role="banner" class="banner widgets columns-1">
+        <a href="/" rel="home">
+            <h1 class="site" style="font-size: 40px">Miguel Abate</h1>
+            <p></p>
+        </a>
+        <nav role="navigation" aria-label="Primary Navigation">
+
+            <ul class="menu">
+                <li class="menu-item "><a class="menu__link" href="/post/">POSTS</a></li>
+                <li class="menu-item "><a class="menu__link" href="/links/">LINKS</a></li>
+                <li class="menu-item "><a class="menu__link" href="/about/">ABOUT ME</a></li>
+            </ul>
+            <select onChange="location.href=value;">
+                <option value="/post/" class="menu-item menu-item-type-custom menu-item-object-custom" >POSTS</option>
+                <option value="/links/" class="menu-item menu-item-type-custom menu-item-object-custom" >LINKS</option>
+                <option value="/about/" class="menu-item menu-item-type-custom menu-item-object-custom" >ABOUT ME</option>
+            </select>
+        </nav>
+    </header>
+
+    <br>
+    <div style="width: 100%; max-height: 100px; text-align: center;">
+       
+</div>
+
+    <div class="breadcrumbs">
+        
+    </div>
+        <div id="content" class="content">
+
+<main role="main">
+    <article role="article" class="post type-post format-standard hentry">
+        <header class="post-header">
+            <h1>Aleka: a schema agnostic protobuf decoder</h1>
+            <div class="post-details">
+                <a rel="bookmark">
+                    <time datetime="2022-05-26T526:530:506">2022-05-26</time>
+                </a>
+				
+<span style="float: right;">
+    <div id="fb-root" style="height: 100%;"></div>
+    
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2"></script>
+    
+    <div class="fb-share-button" data-href="/aleka-a-schema-agnostic-protobuf-decoder/" data-layout="button_count" data-size="small">
+        <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=%2faleka-a-schema-agnostic-protobuf-decoder%2f" class="fb-xfbml-parse-ignore">Share</a>
+    </div>
+    &nbsp;
+    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text="Aleka: a schema agnostic protobuf decoder" data-url="/aleka-a-schema-agnostic-protobuf-decoder/" data-show-count="false">Tweet</a>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    &nbsp;
+    
+</span>
+
+            </div>
+        </header>
+
+        <div class="post-content">
+            <p>Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition</p>
+<p>If you usually work with protobuf services and messaging, there is probably a moment when you need to decode a protobuf binary message to do some kind of debugging.</p>
+<p>Normally, you would have your application with the compiled proto schema, and you can use that to parse and view the data of the message in question.</p>
+<p>But sometimes that is not the case, and you need some quick way of viewing into the contents of the message.</p>
+<p>Aleka is a tool to help here.</p>
+<p>What <a href="https://github.com/miguelabate/aleka">Aleka</a> does, in short, is take a binary protobuf input (coded as base64 or hex string) and decode it following the <a href="https://developers.google.com/protocol-buffers/docs/encoding">Protobuf spec</a> generating a JSON output that can be easily read by a person.</p>
+<p>Of course there are some caveats when you try to decode without a schema as a reference:</p>
+<ul>
+<li>
+<p>For starters, there is ambiguity when decoding since some types share the same encoding (for example fixed32 and float), in these cases, the output will show all the possible value interpretations and leave it to the user to make sense of those.</p>
+</li>
+<li>
+<p>Continuing with the ambiguity, there is the more delicate case of string, bytes and embedded messages. These 3 different types are encoded in the same way, so it&rsquo;s a little tricky to figure out the correct way to go.</p>
+<p>The approach taken in Aleka is that it first tries to decode this type of data as a new proto message and as a string. If any or both are valid, they are added in the decoded output. If both fail, it will consider it just a sequence of bytes and add it to the output as that.</p>
+</li>
+</ul>
+<h1 id="output-format">Output format</h1>
+<pre tabindex="0"><code>//a proto message
+Message{
+    fields: array of Field
+}
+
+//representation of a field of the proto message, it could be a value, or repeated values, or a submessage or a list of submessages.
+//Values and message can be filled at the same time in case that the decoding is ambiguous and the result can be both a proto message and a string
+Field{
+    field_number: int expressing the field number in the proto
+    values: array of Value
+    messages: array of Message
+}
+
+//since we don&#39;t have a schema, a value can have different interpretations depending on how it&#39;s decoded. That&#39;s why there is a list here, to show the different possibilities
+Value{
+    value_representations: array of ValueRepresentation
+}
+
+ValueRepresentation{
+    value: the value as a String
+    format_type: the type used to represent this value
+}
+</code></pre><h1 id="example">Example</h1>
+<p>Let&rsquo; s say we have the following proto definition</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">Person</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span>  name <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">int32</span>   age <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">float</span>   height <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">repeated</span> <span style="color:#66d9ef">string</span> nicknames <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">repeated</span> Address addresses <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">sint32</span>   account_balance <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">message</span> <span style="color:#a6e22e">Address</span> {<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> street <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> number <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>    <span style="color:#66d9ef">string</span> country <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>;<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>}<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>And the following message (rust code using tonic crate to handle proto messages)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>Person{
+</span></span><span style="display:flex;"><span>        name: <span style="color:#e6db74">&#34;Michael&#34;</span>.to_owned(),
+</span></span><span style="display:flex;"><span>        age: <span style="color:#ae81ff">20</span>,
+</span></span><span style="display:flex;"><span>        height: <span style="color:#ae81ff">1.83</span>,
+</span></span><span style="display:flex;"><span>        nicknames: <span style="color:#a6e22e">vec</span><span style="color:#f92672">!</span>[<span style="color:#e6db74">&#34;Mike&#34;</span>.to_owned(), <span style="color:#e6db74">&#34;The Big M&#34;</span>.to_owned()],
+</span></span><span style="display:flex;"><span>        addresses: <span style="color:#a6e22e">vec</span><span style="color:#f92672">!</span>[Address{
+</span></span><span style="display:flex;"><span>            street: <span style="color:#e6db74">&#34;Fake Street&#34;</span>.to_string(),
+</span></span><span style="display:flex;"><span>            number: <span style="color:#e6db74">&#34;123&#34;</span>.to_string(),
+</span></span><span style="display:flex;"><span>            country: <span style="color:#e6db74">&#34;NL&#34;</span>.to_string()
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        Address{
+</span></span><span style="display:flex;"><span>            street: <span style="color:#e6db74">&#34;Random Street&#34;</span>.to_string(),
+</span></span><span style="display:flex;"><span>            number: <span style="color:#e6db74">&#34;112334&#34;</span>.to_string(),
+</span></span><span style="display:flex;"><span>            country: <span style="color:#e6db74">&#34;PT&#34;</span>.to_string()
+</span></span><span style="display:flex;"><span>        }],
+</span></span><span style="display:flex;"><span>        account_balance: <span style="color:#f92672">-</span><span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>    };
+</span></span></code></pre></div><p>The message encoded as base 64 is:</p>
+<pre tabindex="0"><code>CgdNaWNoYWVsEBQdcT3qPyIETWlrZSIJVGhlIEJpZyBNKhYKC0Zha2UgU3RyZWV0EgMxMjMaAk5MKhsKDVJhbmRvbSBTdHJlZXQSBjExMjMzNBoCUFQ4xwE=
+</code></pre><p>When running aleka, the output should look like</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; aleka -i b64 -d CgdNaWNoYWVsEBQdcT3qPyIETWlrZSIJVGhlIEJpZyBNKhYKC0Zha2UgU3RyZWV0EgMxMjMaAk5MKhsKDVJhbmRvbSBTdHJlZXQSBjExMjMzNBoCUFQ4xwE<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;fields&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 1,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;Michael&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 2,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;20&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(int32/int64/uint32/uint64)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;10&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(sint32/sint64)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 3,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;1072315761&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;fixed32&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;1.83&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;float&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 4,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;Mike&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;The Big M&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 5,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;\n\u000bFake Street\u0012\u0003123\u001a\u0002NL&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;\n\rRandom Street\u0012\u0006112334\u001a\u0002PT&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;messages&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;fields&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 1,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;Fake Street&#34;</span>,
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 2,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;123&#34;</span>,
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 3,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;NL&#34;</span>,
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;fields&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 1,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;Random Street&#34;</span>,
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 2,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;112334&#34;</span>,
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 3,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;PT&#34;</span>,
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;messages&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;fields&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;field_number&#34;</span>: 10,
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;84&#34;</span>,
+</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(int32/int64/uint32/uint64)&#34;</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;42&#34;</span>,
+</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(sint32/sint64)&#34;</span>
+</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                      <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 7,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;199&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(int32/int64/uint32/uint64)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;-100&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(sint32/sint64)&#34;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><h1 id="conclusion">Conclusion</h1>
+<p>Hope this is a useful tool to put out there. And in any case, it&rsquo; s a good excercise to understand the protobuf encoding.<br>
+The full source code can be found in <a href="https://github.com/miguelabate/aleka">https://github.com/miguelabate/aleka</a></p>
+        </div>
+
+
+
+        <footer class="post-footer">
+                
+                
+                
+                <span class="post-categories">
+                        <a href="/categories/rust/">Rust</a>&emsp;
+                        
+                        <a href="/categories/tool/">Tool</a>&emsp;
+                        
+                </span>
+                
+        
+                
+                
+                
+                <span class="post-tags">
+                        <a href="/tags/command-line/">command line</a>&emsp;
+                        
+                        <a href="/tags/protobuf/">protobuf</a>&emsp;
+                        
+                        <a href="/tags/rust/">rust</a>&emsp;
+                        
+                        <a href="/tags/tool/">tool</a>&emsp;
+                        
+                </span>
+                
+        </footer>
+        
+<table cellspacing="15" style="width:100%; border: none;">
+    <tr>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+        <td style="text-align: center; border: none; padding: 0px;">
+        </td>
+    </tr>
+</table>
+
+        
+	
+	
+	<h4>Related Posts</h4>
+	<ol style="margin-left: 30px; list-style-type: decimal;">
+		
+		<li><strong><a href="/bulk-ebook-converter/">Bulk eBook Converter</a></strong></li>
+		
+		<li><strong><a href="/reddit-urls-scraper/">Reddit Urls Scraper</a></strong></li>
+		
+		<li><strong><a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a></strong></li>
+		
+	</ol>
+	
+
+    </article>
+
+    
+    <nav class="navigation post-navigation" role="navigation">
+        <div class="nav-links">
+            <div class="nav-previous">
+                
+                <a class="previous" href="/jwt-token-auth-in-golang/"> Jwt Token Auth in Golang</a>
+                
+            </div>
+            <div class="nav-next">
+                
+            </div>
+        </div>
+    </nav>
+    <section>
+        
+    </section>
+    
+
+</main>
+
+
+        <div class="sidebar1 widgets columns-1">
+
+    <aside>
+    
+</aside>
+    <aside class="widget widget_categories">
+        <h2>Categories</h2>
+        <ul class="widget__list"><li class="cat-item cat-item-2">
+                <a href="/categories/bash/">Bash (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/bits/">Bits (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/devops/">DevOps (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/frontend/">Frontend (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/go/">Go (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/poc/">POC (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/programming/">Programming (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/rust/">Rust (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/server/">Server (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/tool/">Tool (3)</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_tag_cloud">
+        <h2>Tags</h2>
+        <div class="tagcloud"><a class="tag-cloud-link" href="/tags/bash/" title="bash" style="font-size: 12pt;">bash</a>&emsp;<a class="tag-cloud-link" href="/tags/command-line/" title="command-line" style="font-size: 12pt;">command line</a>&emsp;<a class="tag-cloud-link" href="/tags/devops/" title="devops" style="font-size: 12pt;">devops</a>&emsp;<a class="tag-cloud-link" href="/tags/ebook/" title="ebook" style="font-size: 12pt;">eBook</a>&emsp;<a class="tag-cloud-link" href="/tags/geo/" title="geo" style="font-size: 12pt;">geo</a>&emsp;<a class="tag-cloud-link" href="/tags/go/" title="go" style="font-size: 12pt;">go</a>&emsp;<a class="tag-cloud-link" href="/tags/golang/" title="golang" style="font-size: 12pt;">golang</a>&emsp;<a class="tag-cloud-link" href="/tags/html/" title="html" style="font-size: 12pt;">html</a>&emsp;<a class="tag-cloud-link" href="/tags/js/" title="js" style="font-size: 12pt;">js</a>&emsp;<a class="tag-cloud-link" href="/tags/jwt/" title="jwt" style="font-size: 12pt;">jwt</a>&emsp;<a class="tag-cloud-link" href="/tags/leaflet/" title="leaflet" style="font-size: 12pt;">leaflet</a>&emsp;<a class="tag-cloud-link" href="/tags/linux/" title="linux" style="font-size: 12pt;">linux</a>&emsp;<a class="tag-cloud-link" href="/tags/nginx/" title="nginx" style="font-size: 12pt;">nginx</a>&emsp;<a class="tag-cloud-link" href="/tags/poc/" title="poc" style="font-size: 12pt;">POC</a>&emsp;<a class="tag-cloud-link" href="/tags/programming/" title="programming" style="font-size: 12pt;">programming</a>&emsp;<a class="tag-cloud-link" href="/tags/protobuf/" title="protobuf" style="font-size: 12pt;">protobuf</a>&emsp;<a class="tag-cloud-link" href="/tags/reddit/" title="reddit" style="font-size: 12pt;">reddit</a>&emsp;<a class="tag-cloud-link" href="/tags/rust/" title="rust" style="font-size: 12pt;">rust</a>&emsp;<a class="tag-cloud-link" href="/tags/server/" title="server" style="font-size: 12pt;">server</a>&emsp;<a class="tag-cloud-link" href="/tags/ssl/" title="ssl" style="font-size: 12pt;">ssl</a>&emsp;<a class="tag-cloud-link" href="/tags/tool/" title="tool" style="font-size: 12pt;">tool</a>&emsp;<a class="tag-cloud-link" href="/tags/websocket/" title="websocket" style="font-size: 12pt;">websocket</a>&emsp;
+        </div>
+    </aside>
+
+    <aside class="widget widget_recent_entries">
+        <h2>Recent Posts</h2>
+        <ul>
+            <li>
+                <a href="/aleka-a-schema-agnostic-protobuf-decoder/">Aleka: a schema agnostic protobuf decoder</a>
+            </li>
+            <li>
+                <a href="/jwt-token-auth-in-golang/">Jwt Token Auth in Golang</a>
+            </li>
+            <li>
+                <a href="/leaflet-animated-marker/">Leaflet animated marker</a>
+            </li>
+            <li>
+                <a href="/nginx-ssl-reverse-proxy/">Nginx SSL Reverse Proxy</a>
+            </li>
+            <li>
+                <a href="/bulk-ebook-converter/">Bulk eBook Converter</a>
+            </li>
+            <li>
+                <a href="/reddit-urls-scraper/">Reddit Urls Scraper</a>
+            </li>
+            <li>
+                <a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a>
+            </li>
+        </ul>
+    </aside>
+
+    <aside class="widget widget_archive">
+        <h2>Archives</h2>
+        <ul>
+        </ul>
+    </aside>
+
+</div>
+        </div>
+        </div>
+<footer role="contentinfo" class="document-footer contentinfo widgets columns-1">
+
+    <aside class="widget widget_text">
+        <div class="textwidget">
+            <p>© Miguel Abate / Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/tosi29/inkblotty" target="_blank">Inkblotty</a></p>
+        </div>
+    </aside>
+</footer>
+</div>
+
+    </body>
+</html>

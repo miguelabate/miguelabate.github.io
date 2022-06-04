@@ -19,16 +19,34 @@
             padding: 0 !important;
         }
     </style>
+    
     <link rel='stylesheet' href='/css/style.css' type='text/css' media='all' />
     <link rel='stylesheet' href='/css/custom.css' type='text/css' media='all' />
-        
+    <link rel='stylesheet' href='/css/syntax.css' type='text/css' media='all' />
+    <link rel='stylesheet' href='/css/toc.css' type='text/css' media='all' />
+    
+    <meta property="og:title" content="Nginx SSL Reverse Proxy" />
+<meta property="og:description" content="In this post I would like to show a minimal configuration to set up a Nginx server with SSL termination
+and reverse proxy to another service. Also, I set up a static html content serving." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/nginx-ssl-reverse-proxy/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2020-11-14T12:31:11+01:00" />
+<meta property="article:modified_time" content="2020-11-14T12:31:11+01:00" />
+
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Nginx SSL Reverse Proxy"/>
+<meta name="twitter:description" content="In this post I would like to show a minimal configuration to set up a Nginx server with SSL termination
+and reverse proxy to another service. Also, I set up a static html content serving."/>
+
 </head>
+
     <body class="two-column">
         <a href="#content">Skip to content</a>
 <div class="wrapper">
     <header role="banner" class="banner widgets columns-1">
         <a href="/" rel="home">
-            <h1 class="site" style="font-size:40px;">Miguel Abate</h1>
+            <h1 class="site" style="font-size: 40px">Miguel Abate</h1>
             <p></p>
         </a>
         <nav role="navigation" aria-label="Primary Navigation">
@@ -54,7 +72,6 @@
     <div class="breadcrumbs">
         
     </div>
-
         <div id="content" class="content">
 
 <main role="main">
@@ -87,39 +104,24 @@
         <div class="post-content">
             <p>In this post I would like to show a minimal configuration to set up a Nginx server with SSL termination
 and reverse proxy to another service. Also, I set up a static html content serving.</p>
-
 <p><a href="https://github.com/miguelabate/nginx-ssl-reverse-proxy">Here</a> you can find the complete config. Read further for an explanation.</p>
-
 <p>So, why would I want to set up a reverse proxy with ssl termination?</p>
-
 <p>The main reason I do this, is because in this way I don&rsquo;t need to handle the secure connection in the service itself.
 So, no matter how you develop your service (Java/Spring, GoLang, C/C++, etc.) you just need to provide a simple http interface
 and let the proxy handle the ssl/tls part.</p>
-
-<p><img src="/ssl-reverse-1.png" alt="Schema" title="Ssl reverse proxy" /></p>
-
-<p>In this particular example, besides the ssl termination, I will also add the possibility of serving static http content.<br />
+<p><img src="/ssl-reverse-1.png" alt="Schema" title="Ssl reverse proxy"></p>
+<p>In this particular example, besides the ssl termination, I will also add the possibility of serving static http content.<br>
 So the Ngnix server will also do routing based on path. Certain requests to the proxied service and others to index.html.</p>
-
 <p>A basic diagram of what I will set up:</p>
-
-<p><img src="/ssl-reverse-2.png" alt="Schema" title="Ssl reverse proxy and static html content" /></p>
-
+<p><img src="/ssl-reverse-2.png" alt="Schema" title="Ssl reverse proxy and static html content"></p>
 <h2 id="generating-the-self-signed-certificates">Generating the self signed certificates</h2>
-
-<p>For testing/dev purposes, I will generate self signed certificates. This should be enough for a dev environment.<br />
+<p>For testing/dev purposes, I will generate self signed certificates. This should be enough for a dev environment.<br>
 I followed the method listed in <a href="https://www.humankode.com/ssl/create-a-selfsigned-certificate-for-nginx-in-5-minutes">here</a>.</p>
-
 <p>In short, you need to generate the certificates using openssl and provide a configuration file for the certificate.</p>
-
-<pre><code>sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./ssl/private/localhost.key -out ./ssl/certs/localhost.crt -config ./ssl/localhost.conf
-</code></pre>
-
-<p>You can get an example content for the <a href="https://github.com/miguelabate/nginx-ssl-reverse-proxy/blob/master/ssl/localhost.conf">localhost.conf</a> here.</p>
-
-<h2 id="nginx-configuration-nginx-conf">Nginx configuration (nginx.conf)</h2>
-
-<pre><code>events { }
+<pre tabindex="0"><code>sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./ssl/private/localhost.key -out ./ssl/certs/localhost.crt -config ./ssl/localhost.conf
+</code></pre><p>You can get an example content for the <a href="https://github.com/miguelabate/nginx-ssl-reverse-proxy/blob/master/ssl/localhost.conf">localhost.conf</a> here.</p>
+<h2 id="nginx-configuration-nginxconf">Nginx configuration (nginx.conf)</h2>
+<pre tabindex="0"><code>events { }
 http {
 
 	server {
@@ -150,24 +152,19 @@ http {
                 proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
                 proxy_set_header        X-Forwarded-Proto $scheme;
 
-				proxy_pass http://localhost:8080/; #if running outside docker you can use 127.0.0.1 or localhost instead of host.docker.internal, or with docker with network_mode: &quot;host&quot;
+				proxy_pass http://localhost:8080/; #if running outside docker you can use 127.0.0.1 or localhost instead of host.docker.internal, or with docker with network_mode: &#34;host&#34;
 				proxy_redirect off;
 			    }
 		}
 }
-</code></pre>
-
-<h2 id="putting-it-all-together-as-a-docker-compose-configuration">Putting it all together as a docker compose configuration</h2>
-
+</code></pre><h2 id="putting-it-all-together-as-a-docker-compose-configuration">Putting it all together as a docker compose configuration</h2>
 <p>For convenience, I use  docker-compose to spin up a Nginx server and an <a href="https://github.com/Vad1mo/hello-world-rest">echo test service</a>.</p>
-
 <p>This is the docker-compose.yml configuration:</p>
-
-<pre><code>version: &quot;3.5&quot;
+<pre tabindex="0"><code>version: &#34;3.5&#34;
 services:
   https-proxy:
     image: nginx
-    network_mode: &quot;host&quot;
+    network_mode: &#34;host&#34;
     ports:
       - 8081:8081
       - 443:443
@@ -182,56 +179,50 @@ services:
     image: vad1mo/hello-world-rest
     ports:
       - 8080:5050
-</code></pre>
-
-<p>With that, I specify the Nginx image to expose the necessary ports and mount some local folders as volumes.
+</code></pre><p>With that, I specify the Nginx image to expose the necessary ports and mount some local folders as volumes.
 From these folders Nginx will pick up the configuration, the certificates I generated and the static html content to serve.</p>
-
 <p>Also, I set up the echo service to serve on port 8080.</p>
-
 <p>An important detail here, when using nginx in a docker container it&rsquo;s useful to set the config &ldquo;network_mode: &ldquo;host&rdquo;.
 In this mode the container shares the networking namespace of the host, directly exposing it to the outside world.
 This allows referencing &ldquo;localhost&rdquo; directly from nginx.conf file.</p>
-
 <p>To spin up this docker setup:</p>
-
-<pre><code>docker-compose up https-proxy echo-service  
-</code></pre>
-
-<p>The  complete code and scripts to set up the explained configuration can be found here <a href="https://github.com/miguelabate/nginx-ssl-reverse-proxy">https://github.com/miguelabate/nginx-ssl-reverse-proxy</a></p>
-
+<pre tabindex="0"><code>docker-compose up https-proxy echo-service  
+</code></pre><p>The  complete code and scripts to set up the explained configuration can be found here <a href="https://github.com/miguelabate/nginx-ssl-reverse-proxy">https://github.com/miguelabate/nginx-ssl-reverse-proxy</a></p>
 <h1 id="conclusion">Conclusion</h1>
-
 <p>In this article I showed a simple setup for a Nginx reverse proxy with ssl termination. This is not only useful for production architectures, but also for development setups
 since modern browsers put restrictions if you want to call non tls/ssl endpoints from non tls/ssl endpoints  (a common occurrence during local testing).
-Also, browsers restrict the access to user GPS location when using non secure connections.<br />
+Also, browsers restrict the access to user GPS location when using non secure connections.<br>
 For these reasons I think it&rsquo;s an overall good idea to set up a secured ssl development environment that later can be moved without many modifications to production.</p>
         </div>
 
-        <footer class="post-footer">
-            
-            <span class="post-categories">
-                
-                <a href="/categories/devops" rel="tag">DevOps</a>
-                
-                <a href="/categories/server" rel="tag">Server</a>
-                
-            </span>
-            
 
-            
-            <span class="post-tags">
+
+        <footer class="post-footer">
                 
-                <a href="/tags/nginx" rel="tag">nginx</a>&emsp;
                 
-                <a href="/tags/devops" rel="tag">devops</a>&emsp;
                 
-                <a href="/tags/ssl" rel="tag">ssl</a>&emsp;
+                <span class="post-categories">
+                        <a href="/categories/devops/">DevOps</a>&emsp;
+                        
+                        <a href="/categories/server/">Server</a>&emsp;
+                        
+                </span>
                 
-                <a href="/tags/poc" rel="tag">POC</a>&emsp;
+        
                 
-            </span>
-            
+                
+                
+                <span class="post-tags">
+                        <a href="/tags/devops/">devops</a>&emsp;
+                        
+                        <a href="/tags/nginx/">nginx</a>&emsp;
+                        
+                        <a href="/tags/poc/">POC</a>&emsp;
+                        
+                        <a href="/tags/ssl/">ssl</a>&emsp;
+                        
+                </span>
+                
         </footer>
         
 <table cellspacing="15" style="width:100%; border: none;">
@@ -280,36 +271,41 @@ For these reasons I think it&rsquo;s an overall good idea to set up a secured ss
     <aside class="widget widget_categories">
         <h2>Categories</h2>
         <ul class="widget__list"><li class="cat-item cat-item-2">
-                <a href="/categories/bash">Bash (1)</a>
+                <a href="/categories/bash/">Bash (1)</a>
             </li><li class="cat-item cat-item-2">
-                <a href="/categories/bits">Bits (1)</a>
+                <a href="/categories/bits/">Bits (1)</a>
             </li><li class="cat-item cat-item-2">
-                <a href="/categories/devops">DevOps (1)</a>
+                <a href="/categories/devops/">DevOps (1)</a>
             </li><li class="cat-item cat-item-2">
-                <a href="/categories/frontend">Frontend (1)</a>
+                <a href="/categories/frontend/">Frontend (1)</a>
             </li><li class="cat-item cat-item-2">
-                <a href="/categories/go">Go (1)</a>
+                <a href="/categories/go/">Go (1)</a>
             </li><li class="cat-item cat-item-2">
-                <a href="/categories/poc">POC (1)</a>
+                <a href="/categories/poc/">POC (1)</a>
             </li><li class="cat-item cat-item-2">
-                <a href="/categories/programming">Programming (1)</a>
+                <a href="/categories/programming/">Programming (1)</a>
             </li><li class="cat-item cat-item-2">
-                <a href="/categories/server">Server (1)</a>
+                <a href="/categories/rust/">Rust (1)</a>
             </li><li class="cat-item cat-item-2">
-                <a href="/categories/tool">Tool (2)</a>
+                <a href="/categories/server/">Server (1)</a>
+            </li><li class="cat-item cat-item-2">
+                <a href="/categories/tool/">Tool (3)</a>
             </li>
         </ul>
     </aside>
 
     <aside class="widget widget_tag_cloud">
         <h2>Tags</h2>
-        <div class="tagcloud"><a class="tag-cloud-link" href="/tags/bash" title="bash" style="font-size: 12pt;">bash</a>&emsp;<a class="tag-cloud-link" href="/tags/command-line" title="command-line" style="font-size: 12pt;">command line</a>&emsp;<a class="tag-cloud-link" href="/tags/devops" title="devops" style="font-size: 12pt;">devops</a>&emsp;<a class="tag-cloud-link" href="/tags/ebook" title="ebook" style="font-size: 12pt;">eBook</a>&emsp;<a class="tag-cloud-link" href="/tags/geo" title="geo" style="font-size: 12pt;">geo</a>&emsp;<a class="tag-cloud-link" href="/tags/go" title="go" style="font-size: 12pt;">go</a>&emsp;<a class="tag-cloud-link" href="/tags/golang" title="golang" style="font-size: 12pt;">golang</a>&emsp;<a class="tag-cloud-link" href="/tags/html" title="html" style="font-size: 12pt;">html</a>&emsp;<a class="tag-cloud-link" href="/tags/js" title="js" style="font-size: 12pt;">js</a>&emsp;<a class="tag-cloud-link" href="/tags/jwt" title="jwt" style="font-size: 12pt;">jwt</a>&emsp;<a class="tag-cloud-link" href="/tags/leaflet" title="leaflet" style="font-size: 12pt;">leaflet</a>&emsp;<a class="tag-cloud-link" href="/tags/linux" title="linux" style="font-size: 12pt;">linux</a>&emsp;<a class="tag-cloud-link" href="/tags/nginx" title="nginx" style="font-size: 12pt;">nginx</a>&emsp;<a class="tag-cloud-link" href="/tags/poc" title="poc" style="font-size: 12pt;">POC</a>&emsp;<a class="tag-cloud-link" href="/tags/programming" title="programming" style="font-size: 12pt;">programming</a>&emsp;<a class="tag-cloud-link" href="/tags/protobuf" title="protobuf" style="font-size: 12pt;">protobuf</a>&emsp;<a class="tag-cloud-link" href="/tags/reddit" title="reddit" style="font-size: 12pt;">reddit</a>&emsp;<a class="tag-cloud-link" href="/tags/server" title="server" style="font-size: 12pt;">server</a>&emsp;<a class="tag-cloud-link" href="/tags/ssl" title="ssl" style="font-size: 12pt;">ssl</a>&emsp;<a class="tag-cloud-link" href="/tags/tool" title="tool" style="font-size: 12pt;">tool</a>&emsp;<a class="tag-cloud-link" href="/tags/websocket" title="websocket" style="font-size: 12pt;">websocket</a>&emsp;
+        <div class="tagcloud"><a class="tag-cloud-link" href="/tags/bash/" title="bash" style="font-size: 12pt;">bash</a>&emsp;<a class="tag-cloud-link" href="/tags/command-line/" title="command-line" style="font-size: 12pt;">command line</a>&emsp;<a class="tag-cloud-link" href="/tags/devops/" title="devops" style="font-size: 12pt;">devops</a>&emsp;<a class="tag-cloud-link" href="/tags/ebook/" title="ebook" style="font-size: 12pt;">eBook</a>&emsp;<a class="tag-cloud-link" href="/tags/geo/" title="geo" style="font-size: 12pt;">geo</a>&emsp;<a class="tag-cloud-link" href="/tags/go/" title="go" style="font-size: 12pt;">go</a>&emsp;<a class="tag-cloud-link" href="/tags/golang/" title="golang" style="font-size: 12pt;">golang</a>&emsp;<a class="tag-cloud-link" href="/tags/html/" title="html" style="font-size: 12pt;">html</a>&emsp;<a class="tag-cloud-link" href="/tags/js/" title="js" style="font-size: 12pt;">js</a>&emsp;<a class="tag-cloud-link" href="/tags/jwt/" title="jwt" style="font-size: 12pt;">jwt</a>&emsp;<a class="tag-cloud-link" href="/tags/leaflet/" title="leaflet" style="font-size: 12pt;">leaflet</a>&emsp;<a class="tag-cloud-link" href="/tags/linux/" title="linux" style="font-size: 12pt;">linux</a>&emsp;<a class="tag-cloud-link" href="/tags/nginx/" title="nginx" style="font-size: 12pt;">nginx</a>&emsp;<a class="tag-cloud-link" href="/tags/poc/" title="poc" style="font-size: 12pt;">POC</a>&emsp;<a class="tag-cloud-link" href="/tags/programming/" title="programming" style="font-size: 12pt;">programming</a>&emsp;<a class="tag-cloud-link" href="/tags/protobuf/" title="protobuf" style="font-size: 12pt;">protobuf</a>&emsp;<a class="tag-cloud-link" href="/tags/reddit/" title="reddit" style="font-size: 12pt;">reddit</a>&emsp;<a class="tag-cloud-link" href="/tags/rust/" title="rust" style="font-size: 12pt;">rust</a>&emsp;<a class="tag-cloud-link" href="/tags/server/" title="server" style="font-size: 12pt;">server</a>&emsp;<a class="tag-cloud-link" href="/tags/ssl/" title="ssl" style="font-size: 12pt;">ssl</a>&emsp;<a class="tag-cloud-link" href="/tags/tool/" title="tool" style="font-size: 12pt;">tool</a>&emsp;<a class="tag-cloud-link" href="/tags/websocket/" title="websocket" style="font-size: 12pt;">websocket</a>&emsp;
         </div>
     </aside>
 
     <aside class="widget widget_recent_entries">
         <h2>Recent Posts</h2>
         <ul>
+            <li>
+                <a href="/aleka-a-schema-agnostic-protobuf-decoder/">Aleka: a schema agnostic protobuf decoder</a>
+            </li>
             <li>
                 <a href="/jwt-token-auth-in-golang/">Jwt Token Auth in Golang</a>
             </li>
