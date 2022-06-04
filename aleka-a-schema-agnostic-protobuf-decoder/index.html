@@ -104,7 +104,7 @@
 <p>If you usually work with protobuf services and messaging, there is probably a moment when you need to decode a protobuf binary message to do some kind of debugging.</p>
 <p>Normally, you would have your application with the compiled proto schema, and you can use that to parse and view the data of the message in question.</p>
 <p>But sometimes that is not the case, and you need some quick way of viewing into the contents of the message.</p>
-<p>Aleka is a tool to help here.</p>
+<p>Aleka is a tool to help here. You can check the source code here  <a href="https://github.com/miguelabate/aleka">https://github.com/miguelabate/aleka</a></p>
 <p>What <a href="https://github.com/miguelabate/aleka">Aleka</a> does, in short, is take a binary protobuf input (coded as base64 or hex string) and decode it following the <a href="https://developers.google.com/protocol-buffers/docs/encoding">Protobuf spec</a> generating a JSON output that can be easily read by a person.</p>
 <p>Of course there are some caveats when you try to decode without a schema as a reference:</p>
 <ul>
@@ -174,230 +174,237 @@ ValueRepresentation{
 </span></span><span style="display:flex;"><span>    };
 </span></span></code></pre></div><p>The message encoded as base 64 is:</p>
 <pre tabindex="0"><code>CgdNaWNoYWVsEBQdcT3qPyIETWlrZSIJVGhlIEJpZyBNKhYKC0Zha2UgU3RyZWV0EgMxMjMaAk5MKhsKDVJhbmRvbSBTdHJlZXQSBjExMjMzNBoCUFQ4xwE=
-</code></pre><p>When running aleka, the output should look like</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&gt; aleka -i b64 -d CgdNaWNoYWVsEBQdcT3qPyIETWlrZSIJVGhlIEJpZyBNKhYKC0Zha2UgU3RyZWV0EgMxMjMaAk5MKhsKDVJhbmRvbSBTdHJlZXQSBjExMjMzNBoCUFQ4xwE<span style="color:#f92672">=</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;fields&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 1,
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;Michael&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 2,
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;20&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(int32/int64/uint32/uint64)&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;10&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(sint32/sint64)&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 3,
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;1072315761&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;fixed32&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;1.83&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;float&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 4,
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;Mike&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;The Big M&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 5,
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;\n\u000bFake Street\u0012\u0003123\u001a\u0002NL&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;\n\rRandom Street\u0012\u0006112334\u001a\u0002PT&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;messages&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;fields&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 1,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;Fake Street&#34;</span>,
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 2,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;123&#34;</span>,
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 3,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;NL&#34;</span>,
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;fields&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 1,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;Random Street&#34;</span>,
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 2,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;112334&#34;</span>,
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;field_number&#34;</span>: 3,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;PT&#34;</span>,
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;String&#34;</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;messages&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;fields&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;field_number&#34;</span>: 10,
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;84&#34;</span>,
-</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(int32/int64/uint32/uint64)&#34;</span>
-</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;42&#34;</span>,
-</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(sint32/sint64)&#34;</span>
-</span></span><span style="display:flex;"><span>                            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>                          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>                  <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;field_number&#34;</span>: 7,
-</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;values&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;value_representations&#34;</span>: <span style="color:#f92672">[</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;199&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(int32/int64/uint32/uint64)&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;-100&#34;</span>,
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">&#34;format_type&#34;</span>: <span style="color:#e6db74">&#34;Varint(sint32/sint64)&#34;</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>          <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span></code></pre></div><h1 id="conclusion">Conclusion</h1>
+</code></pre><p>When running aleka, the output should look like
+
+
+<pre  style="height:400px; overflow: auto;" >
+<code>
+> aleka -i b64 -d CgdNaWNoYWVsEBQdcT3qPyIETWlrZSIJVGhlIEJpZyBNKhYKC0Zha2UgU3RyZWV0EgMxMjMaAk5MKhsKDVJhbmRvbSBTdHJlZXQSBjExMjMzNBoCUFQ4xwE=
+{
+  "fields": [
+    {
+      "field_number": 1,
+      "values": [
+        {
+          "value_representations": [
+            {
+              "value": "Michael",
+              "format_type": "String"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_number": 2,
+      "values": [
+        {
+          "value_representations": [
+            {
+              "value": "20",
+              "format_type": "Varint(int32/int64/uint32/uint64)"
+            },
+            {
+              "value": "10",
+              "format_type": "Varint(sint32/sint64)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_number": 3,
+      "values": [
+        {
+          "value_representations": [
+            {
+              "value": "1072315761",
+              "format_type": "fixed32"
+            },
+            {
+              "value": "1.83",
+              "format_type": "float"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_number": 4,
+      "values": [
+        {
+          "value_representations": [
+            {
+              "value": "Mike",
+              "format_type": "String"
+            }
+          ]
+        },
+        {
+          "value_representations": [
+            {
+              "value": "The Big M",
+              "format_type": "String"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_number": 5,
+      "values": [
+        {
+          "value_representations": [
+            {
+              "value": "\n\u000bFake Street\u0012\u0003123\u001a\u0002NL",
+              "format_type": "String"
+            }
+          ]
+        },
+        {
+          "value_representations": [
+            {
+              "value": "\n\rRandom Street\u0012\u0006112334\u001a\u0002PT",
+              "format_type": "String"
+            }
+          ]
+        }
+      ],
+      "messages": [
+        {
+          "fields": [
+            {
+              "field_number": 1,
+              "values": [
+                {
+                  "value_representations": [
+                    {
+                      "value": "Fake Street",
+                      "format_type": "String"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "field_number": 2,
+              "values": [
+                {
+                  "value_representations": [
+                    {
+                      "value": "123",
+                      "format_type": "String"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "field_number": 3,
+              "values": [
+                {
+                  "value_representations": [
+                    {
+                      "value": "NL",
+                      "format_type": "String"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "fields": [
+            {
+              "field_number": 1,
+              "values": [
+                {
+                  "value_representations": [
+                    {
+                      "value": "Random Street",
+                      "format_type": "String"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "field_number": 2,
+              "values": [
+                {
+                  "value_representations": [
+                    {
+                      "value": "112334",
+                      "format_type": "String"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "field_number": 3,
+              "values": [
+                {
+                  "value_representations": [
+                    {
+                      "value": "PT",
+                      "format_type": "String"
+                    }
+                  ]
+                }
+              ],
+              "messages": [
+                {
+                  "fields": [
+                    {
+                      "field_number": 10,
+                      "values": [
+                        {
+                          "value_representations": [
+                            {
+                              "value": "84",
+                              "format_type": "Varint(int32/int64/uint32/uint64)"
+                            },
+                            {
+                              "value": "42",
+                              "format_type": "Varint(sint32/sint64)"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "field_number": 7,
+      "values": [
+        {
+          "value_representations": [
+            {
+              "value": "199",
+              "format_type": "Varint(int32/int64/uint32/uint64)"
+            },
+            {
+              "value": "-100",
+              "format_type": "Varint(sint32/sint64)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</code>
+</pre>
+</p>
+<h1 id="conclusion">Conclusion</h1>
 <p>Hope this is a useful tool to put out there. And in any case, it&rsquo; s a good excercise to understand the protobuf encoding.<br>
 The full source code can be found in <a href="https://github.com/miguelabate/aleka">https://github.com/miguelabate/aleka</a></p>
         </div>
