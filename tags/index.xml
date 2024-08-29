@@ -4,206 +4,163 @@
     <title>Tags on Miguel Abate</title>
     <link>/tags/</link>
     <description>Recent content in Tags on Miguel Abate</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate>
+    <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>command line</title>
+      <title>Command Line</title>
       <link>/tags/command-line/</link>
       <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
-      
       <guid>/tags/command-line/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>protobuf</title>
+      <title>Protobuf</title>
       <link>/tags/protobuf/</link>
       <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
-      
       <guid>/tags/protobuf/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>rust</title>
+      <title>Rust</title>
       <link>/tags/rust/</link>
       <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
-      
       <guid>/tags/rust/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>tool</title>
+      <title>Tool</title>
       <link>/tags/tool/</link>
       <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
-      
       <guid>/tags/tool/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>go</title>
+      <title>Go</title>
       <link>/tags/go/</link>
       <pubDate>Sun, 21 Feb 2021 00:50:28 +0200</pubDate>
-      
       <guid>/tags/go/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>jwt</title>
+      <title>Jwt</title>
       <link>/tags/jwt/</link>
       <pubDate>Sun, 21 Feb 2021 00:50:28 +0200</pubDate>
-      
       <guid>/tags/jwt/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>programming</title>
+      <title>Programming</title>
       <link>/tags/programming/</link>
       <pubDate>Sun, 21 Feb 2021 00:50:28 +0200</pubDate>
-      
       <guid>/tags/programming/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>server</title>
+      <title>Server</title>
       <link>/tags/server/</link>
       <pubDate>Sun, 21 Feb 2021 00:50:28 +0200</pubDate>
-      
       <guid>/tags/server/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>geo</title>
+      <title>Geo</title>
       <link>/tags/geo/</link>
       <pubDate>Sat, 19 Dec 2020 10:31:11 +0100</pubDate>
-      
       <guid>/tags/geo/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>js</title>
+      <title>Js</title>
       <link>/tags/js/</link>
       <pubDate>Sat, 19 Dec 2020 10:31:11 +0100</pubDate>
-      
       <guid>/tags/js/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>leaflet</title>
+      <title>Leaflet</title>
       <link>/tags/leaflet/</link>
       <pubDate>Sat, 19 Dec 2020 10:31:11 +0100</pubDate>
-      
       <guid>/tags/leaflet/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>devops</title>
+      <title>Devops</title>
       <link>/tags/devops/</link>
       <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
-      
       <guid>/tags/devops/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>nginx</title>
+      <title>Nginx</title>
       <link>/tags/nginx/</link>
       <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
-      
       <guid>/tags/nginx/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>POC</title>
       <link>/tags/poc/</link>
       <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
-      
       <guid>/tags/poc/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>ssl</title>
+      <title>Ssl</title>
       <link>/tags/ssl/</link>
       <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
-      
       <guid>/tags/ssl/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>bash</title>
+      <title>Bash</title>
       <link>/tags/bash/</link>
       <pubDate>Sat, 04 Apr 2020 18:50:28 +0200</pubDate>
-      
       <guid>/tags/bash/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>eBook</title>
+      <title>EBook</title>
       <link>/tags/ebook/</link>
       <pubDate>Sat, 04 Apr 2020 18:50:28 +0200</pubDate>
-      
       <guid>/tags/ebook/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>linux</title>
+      <title>Linux</title>
       <link>/tags/linux/</link>
       <pubDate>Sat, 04 Apr 2020 18:50:28 +0200</pubDate>
-      
       <guid>/tags/linux/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>golang</title>
+      <title>Golang</title>
       <link>/tags/golang/</link>
       <pubDate>Sat, 21 Mar 2020 17:30:50 +0100</pubDate>
-      
       <guid>/tags/golang/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>reddit</title>
+      <title>Reddit</title>
       <link>/tags/reddit/</link>
       <pubDate>Sat, 21 Mar 2020 17:30:50 +0100</pubDate>
-      
       <guid>/tags/reddit/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>html</title>
+      <title>Html</title>
       <link>/tags/html/</link>
       <pubDate>Thu, 05 Dec 2019 14:29:51 +0200</pubDate>
-      
       <guid>/tags/html/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>websocket</title>
+      <title>Websocket</title>
       <link>/tags/websocket/</link>
       <pubDate>Thu, 05 Dec 2019 14:29:51 +0200</pubDate>
-      
       <guid>/tags/websocket/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

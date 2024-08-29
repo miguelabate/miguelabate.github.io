@@ -4,18 +4,16 @@
     <title>Frontend on Miguel Abate</title>
     <link>/categories/frontend/</link>
     <description>Recent content in Frontend on Miguel Abate</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 19 Dec 2020 10:31:11 +0100</lastBuildDate><atom:link href="/categories/frontend/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Dec 2020 10:31:11 +0100</lastBuildDate>
+    <atom:link href="/categories/frontend/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Leaflet animated marker</title>
       <link>/leaflet-animated-marker/</link>
       <pubDate>Sat, 19 Dec 2020 10:31:11 +0100</pubDate>
-      
       <guid>/leaflet-animated-marker/</guid>
-      <description>Extending Leaflet library to create an animated marker
-</description>
+      <description>Extending Leaflet library to create an animated marker&#xA;</description>
     </item>
-    
   </channel>
 </rss>

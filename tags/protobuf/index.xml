@@ -1,29 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>protobuf on Miguel Abate</title>
+    <title>Protobuf on Miguel Abate</title>
     <link>/tags/protobuf/</link>
-    <description>Recent content in protobuf on Miguel Abate</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Protobuf on Miguel Abate</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate><atom:link href="/tags/protobuf/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate>
+    <atom:link href="/tags/protobuf/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Aleka: a schema agnostic protobuf decoder</title>
       <link>/aleka-a-schema-agnostic-protobuf-decoder/</link>
       <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
-      
       <guid>/aleka-a-schema-agnostic-protobuf-decoder/</guid>
       <description>&lt;p&gt;Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Protobuf communication between Js-client and Go-server</title>
       <link>/protobuf-communication-between-js-client-and-go-server/</link>
       <pubDate>Thu, 05 Dec 2019 14:29:51 +0200</pubDate>
-      
       <guid>/protobuf-communication-between-js-client-and-go-server/</guid>
       <description>&lt;p&gt;In this article, I present a small Proof of Concept of communication between a browser (Js) and a server (Golang) using Protocol Buffers over Websockets. This idea emerged as part of a bigger personal project I&amp;rsquo;m working on and will probably show here in the future.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

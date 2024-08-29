@@ -1,38 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>command line on Miguel Abate</title>
+    <title>Command Line on Miguel Abate</title>
     <link>/tags/command-line/</link>
-    <description>Recent content in command line on Miguel Abate</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Command Line on Miguel Abate</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate><atom:link href="/tags/command-line/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate>
+    <atom:link href="/tags/command-line/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Aleka: a schema agnostic protobuf decoder</title>
       <link>/aleka-a-schema-agnostic-protobuf-decoder/</link>
       <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
-      
       <guid>/aleka-a-schema-agnostic-protobuf-decoder/</guid>
       <description>&lt;p&gt;Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Bulk eBook Converter</title>
       <link>/bulk-ebook-converter/</link>
       <pubDate>Sat, 04 Apr 2020 18:50:28 +0200</pubDate>
-      
       <guid>/bulk-ebook-converter/</guid>
       <description>&lt;p&gt;Script that wraps the ebook-converter linux command line tool for a convenient bulk usage.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Reddit Urls Scraper</title>
       <link>/reddit-urls-scraper/</link>
       <pubDate>Sat, 21 Mar 2020 17:30:50 +0100</pubDate>
-      
       <guid>/reddit-urls-scraper/</guid>
       <description>&lt;p&gt;Showcasing a command line tool to fetch urls from posts from a given subreddit.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

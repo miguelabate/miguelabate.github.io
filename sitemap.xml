@@ -26,25 +26,25 @@
     <loc>/tags/protobuf/</loc>
     <lastmod>2022-05-26T17:30:50+01:00</lastmod>
   </url><url>
-    <loc>/categories/rust/</loc>
+    <loc>/tags/rust/</loc>
     <lastmod>2022-05-26T17:30:50+01:00</lastmod>
   </url><url>
-    <loc>/tags/rust/</loc>
+    <loc>/categories/rust/</loc>
     <lastmod>2022-05-26T17:30:50+01:00</lastmod>
   </url><url>
     <loc>/tags/</loc>
     <lastmod>2022-05-26T17:30:50+01:00</lastmod>
   </url><url>
-    <loc>/categories/tool/</loc>
-    <lastmod>2022-05-26T17:30:50+01:00</lastmod>
-  </url><url>
     <loc>/tags/tool/</loc>
     <lastmod>2022-05-26T17:30:50+01:00</lastmod>
   </url><url>
-    <loc>/categories/go/</loc>
-    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+    <loc>/categories/tool/</loc>
+    <lastmod>2022-05-26T17:30:50+01:00</lastmod>
   </url><url>
     <loc>/tags/go/</loc>
+    <lastmod>2021-02-21T00:50:28+02:00</lastmod>
+  </url><url>
+    <loc>/categories/go/</loc>
     <lastmod>2021-02-21T00:50:28+02:00</lastmod>
   </url><url>
     <loc>/tags/jwt/</loc>
@@ -53,10 +53,10 @@
     <loc>/jwt-token-auth-in-golang/</loc>
     <lastmod>2021-02-21T00:50:28+02:00</lastmod>
   </url><url>
-    <loc>/categories/programming/</loc>
+    <loc>/tags/programming/</loc>
     <lastmod>2021-02-21T00:50:28+02:00</lastmod>
   </url><url>
-    <loc>/tags/programming/</loc>
+    <loc>/categories/programming/</loc>
     <lastmod>2021-02-21T00:50:28+02:00</lastmod>
   </url><url>
     <loc>/tags/server/</loc>
@@ -80,10 +80,10 @@
     <loc>/leaflet-animated-marker/</loc>
     <lastmod>2020-12-19T10:31:11+01:00</lastmod>
   </url><url>
-    <loc>/categories/devops/</loc>
+    <loc>/tags/devops/</loc>
     <lastmod>2020-11-14T12:31:11+01:00</lastmod>
   </url><url>
-    <loc>/tags/devops/</loc>
+    <loc>/categories/devops/</loc>
     <lastmod>2020-11-14T12:31:11+01:00</lastmod>
   </url><url>
     <loc>/tags/nginx/</loc>
@@ -101,10 +101,10 @@
     <loc>/tags/ssl/</loc>
     <lastmod>2020-11-14T12:31:11+01:00</lastmod>
   </url><url>
-    <loc>/categories/bash/</loc>
+    <loc>/tags/bash/</loc>
     <lastmod>2020-04-04T18:50:28+02:00</lastmod>
   </url><url>
-    <loc>/tags/bash/</loc>
+    <loc>/categories/bash/</loc>
     <lastmod>2020-04-04T18:50:28+02:00</lastmod>
   </url><url>
     <loc>/bulk-ebook-converter/</loc>

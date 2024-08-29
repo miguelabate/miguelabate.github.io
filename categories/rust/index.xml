@@ -4,17 +4,16 @@
     <title>Rust on Miguel Abate</title>
     <link>/categories/rust/</link>
     <description>Recent content in Rust on Miguel Abate</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate><atom:link href="/categories/rust/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate>
+    <atom:link href="/categories/rust/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Aleka: a schema agnostic protobuf decoder</title>
       <link>/aleka-a-schema-agnostic-protobuf-decoder/</link>
       <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
-      
       <guid>/aleka-a-schema-agnostic-protobuf-decoder/</guid>
       <description>&lt;p&gt;Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

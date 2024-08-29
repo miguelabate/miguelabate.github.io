@@ -4,98 +4,79 @@
     <title>Categories on Miguel Abate</title>
     <link>/categories/</link>
     <description>Recent content in Categories on Miguel Abate</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 26 May 2022 17:30:50 +0100</lastBuildDate>
+    <atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Rust</title>
       <link>/categories/rust/</link>
       <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
-      
       <guid>/categories/rust/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Tool</title>
       <link>/categories/tool/</link>
       <pubDate>Thu, 26 May 2022 17:30:50 +0100</pubDate>
-      
       <guid>/categories/tool/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Go</title>
       <link>/categories/go/</link>
       <pubDate>Sun, 21 Feb 2021 00:50:28 +0200</pubDate>
-      
       <guid>/categories/go/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Programming</title>
       <link>/categories/programming/</link>
       <pubDate>Sun, 21 Feb 2021 00:50:28 +0200</pubDate>
-      
       <guid>/categories/programming/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Bits</title>
       <link>/categories/bits/</link>
       <pubDate>Sat, 19 Dec 2020 10:31:11 +0100</pubDate>
-      
       <guid>/categories/bits/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Frontend</title>
       <link>/categories/frontend/</link>
       <pubDate>Sat, 19 Dec 2020 10:31:11 +0100</pubDate>
-      
       <guid>/categories/frontend/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>DevOps</title>
       <link>/categories/devops/</link>
       <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
-      
       <guid>/categories/devops/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Server</title>
       <link>/categories/server/</link>
       <pubDate>Sat, 14 Nov 2020 12:31:11 +0100</pubDate>
-      
       <guid>/categories/server/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>Bash</title>
       <link>/categories/bash/</link>
       <pubDate>Sat, 04 Apr 2020 18:50:28 +0200</pubDate>
-      
       <guid>/categories/bash/</guid>
       <description></description>
     </item>
-    
     <item>
       <title>POC</title>
       <link>/categories/poc/</link>
       <pubDate>Thu, 05 Dec 2019 14:29:51 +0200</pubDate>
-      
       <guid>/categories/poc/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>
