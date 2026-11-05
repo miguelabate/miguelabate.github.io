@@ -1,460 +1,70 @@
 <!DOCTYPE html>
-<html>
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
-    <title>Posts - Miguel Abate</title>
-
-    <style type="text/css">
-        img.wp-smiley,
-        img.emoji {
-            display: inline !important;
-            border: none !important;
-            box-shadow: none !important;
-            height: 1em !important;
-            width: 1em !important;
-            margin: 0 .07em !important;
-            vertical-align: -0.1em !important;
-            background: none !important;
-            padding: 0 !important;
-        }
-    </style>
-    
-    <link rel='stylesheet' href='/css/style.css' type='text/css' media='all' />
-    <link rel='stylesheet' href='/css/custom.css' type='text/css' media='all' />
-    <link rel='stylesheet' href='/css/syntax.css' type='text/css' media='all' />
-    <link rel='stylesheet' href='/css/toc.css' type='text/css' media='all' />
-    
-  
-
-
-    <meta property="og:url" content="/post/">
-  <meta property="og:site_name" content="Miguel Abate">
-  <meta property="og:title" content="Posts">
-  <meta property="og:locale" content="en_us">
-  <meta property="og:type" content="website">
-
-    
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Posts">
-
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Posts - Miguel Abate</title>
+  <meta name="description" content="All posts by Miguel Abate.">
+  <link rel="canonical" href="https://miguelabate.com/post/">
+  <link rel="alternate" type="application/rss+xml" title="Miguel Abate" href="/index.xml">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
-
-    <body class="two-column">
-        <a href="#content">Skip to content</a>
-<div class="wrapper">
-    <header role="banner" class="banner widgets columns-1">
-        <a href="/" rel="home">
-            <h1 class="site" style="font-size: 40px">Miguel Abate</h1>
-            <p></p>
-        </a>
-        <nav role="navigation" aria-label="Primary Navigation">
-
-            <ul class="menu">
-                <li class="menu-item  current-menu-item current_page_item "><a class="menu__link" href="/post/">POSTS</a></li>
-                <li class="menu-item "><a class="menu__link" href="/links/">LINKS</a></li>
-                <li class="menu-item "><a class="menu__link" href="/about/">ABOUT ME</a></li>
-            </ul>
-            <select onChange="location.href=value;">
-                <option value="/post/" class="menu-item menu-item-type-custom menu-item-object-custom"  selected="selected" >POSTS</option>
-                <option value="/links/" class="menu-item menu-item-type-custom menu-item-object-custom" >LINKS</option>
-                <option value="/about/" class="menu-item menu-item-type-custom menu-item-object-custom" >ABOUT ME</option>
-            </select>
-        </nav>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="wrap">
+    <header class="site-header">
+      <p class="site-name"><a href="/">Miguel Abate</a></p>
+      <nav aria-label="Primary">
+        <ul class="site-nav">
+          <li><a href="/about/">[ ABOUT ]</a></li>
+          <li><a href="/post/" aria-current="page">[ POSTS ]</a></li>
+          <li><a href="/links/">[ LINKS ]</a></li>
+        </ul>
+      </nav>
     </header>
-
-    <br>
-    <div style="width: 100%; max-height: 100px; text-align: center;">
-       
-</div>
-
-    <div class="breadcrumbs">
-        
-    </div>
-        <div id="content" class="content">
-<main aria-role="main">
-  <header class="homepage-header">
-    <h1>Posts</h1>
-    
-  </header>
-  <div class="homepage-content">
-    
-    
+    <main id="content">
+      <h1 class="page-title">Posts</h1>
+      <div class="post-list">
+      <article class="post-item">
+        <h2><a href="/aleka-a-schema-agnostic-protobuf-decoder/">Aleka: a schema agnostic protobuf decoder</a></h2>
+        <p class="meta"><time datetime="2022-05-26">2022-05-26</time> <span class="labels">Rust · Tool · Command line · Protobuf</span></p>
+        <p>Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition.</p>
+      </article>
+      <article class="post-item">
+        <h2><a href="/jwt-token-auth-in-golang/">Jwt Token Auth in Golang</a></h2>
+        <p class="meta"><time datetime="2021-02-21">2021-02-21</time> <span class="labels">Go · Programming · JWT · Server</span></p>
+        <p>A Go module that exposes basic operations for user management in a REST context (signup, signin, refresh, logout) using JWT.</p>
+      </article>
+      <article class="post-item">
+        <h2><a href="/leaflet-animated-marker/">Leaflet animated marker</a></h2>
+        <p class="meta"><time datetime="2020-12-19">2020-12-19</time> <span class="labels">Bits · Frontend · Geo · JS · Leaflet</span></p>
+        <p>Extending Leaflet library to create an animated marker</p>
+      </article>
+      <article class="post-item">
+        <h2><a href="/nginx-ssl-reverse-proxy/">Nginx SSL Reverse Proxy</a></h2>
+        <p class="meta"><time datetime="2020-11-14">2020-11-14</time> <span class="labels">DevOps · Server · Nginx · POC · SSL</span></p>
+        <p>In this post I would like to show a minimal configuration to set up a Nginx server with SSL termination and reverse proxy to another service. Also, I set up a static html content serving.</p>
+      </article>
+      <article class="post-item">
+        <h2><a href="/bulk-ebook-converter/">Bulk eBook Converter</a></h2>
+        <p class="meta"><time datetime="2020-04-04">2020-04-04</time> <span class="labels">Bash · Tool · Command line · eBook · Linux</span></p>
+        <p>Script that wraps the ebook-converter linux command line tool for a convenient bulk usage.</p>
+      </article>
+      <article class="post-item">
+        <h2><a href="/reddit-urls-scraper/">Reddit Urls Scraper</a></h2>
+        <p class="meta"><time datetime="2020-03-21">2020-03-21</time> <span class="labels">Tool · Command line · Go · Golang · Reddit</span></p>
+        <p>Showcasing a command line tool to fetch urls from posts from a given subreddit.</p>
+      </article>
+      <article class="post-item">
+        <h2><a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a></h2>
+        <p class="meta"><time datetime="2019-12-05">2019-12-05</time> <span class="labels">POC · HTML · JS · Go · Protobuf · WebSocket</span></p>
+        <p>In this article, I present a small Proof of Concept of communication between a browser (Js) and a server (Golang) using Protocol Buffers over Websockets. This idea emerged as part of a bigger personal project I'm working on and will probably show here in the future.</p>
+      </article>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <p>© Miguel Abate · <a href="/index.xml">RSS</a></p>
+    </footer>
   </div>
-  <div>
-    
-    
-        <article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="post-header">
-				<h2><a href="/aleka-a-schema-agnostic-protobuf-decoder/" rel="bookmark">Aleka: a schema agnostic protobuf decoder</a></h2>
-				<div class="post-details">
-				<a rel="bookmark">
-					<time datetime="2022-05-26T17:30:50">2022-05-26</time>
-				</a>
-				</div>
-		</header>
-
-		<div class="post-excerpt"><p>
-			<p>Introducing a command line tool to decode protocol buffer messages without a protobuf schema definition.</p>
-			<a href="/aleka-a-schema-agnostic-protobuf-decoder/" class="more-link">Read more</a>
-		</p></div>
-	</div>
-	
-	<footer class="post-footer">
-		
-		
-		
-		<span class="post-categories">
-				<a href="/categories/rust/">Rust</a>&emsp;
-				
-				<a href="/categories/tool/">Tool</a>&emsp;
-				
-		</span>
-		
-
-		
-		
-		
-		<span class="post-tags">
-		</span>
-		
-	</footer>
-
-</article>
-    
-        <article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="post-header">
-				<h2><a href="/jwt-token-auth-in-golang/" rel="bookmark">Jwt Token Auth in Golang</a></h2>
-				<div class="post-details">
-				<a rel="bookmark">
-					<time datetime="2021-02-21T00:50:28">2021-02-21</time>
-				</a>
-				</div>
-		</header>
-
-		<div class="post-excerpt"><p>
-			<p>A Go module that exposes basic operations for user management in a REST context (signup, signin, refresh, logout) using JWT.</p>
-			<a href="/jwt-token-auth-in-golang/" class="more-link">Read more</a>
-		</p></div>
-	</div>
-	
-	<footer class="post-footer">
-		
-		
-		
-		<span class="post-categories">
-				<a href="/categories/go/">Go</a>&emsp;
-				
-				<a href="/categories/programming/">Programming</a>&emsp;
-				
-		</span>
-		
-
-		
-		
-		
-		<span class="post-tags">
-		</span>
-		
-	</footer>
-
-</article>
-    
-        <article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="post-header">
-				<h2><a href="/leaflet-animated-marker/" rel="bookmark">Leaflet animated marker</a></h2>
-				<div class="post-details">
-				<a rel="bookmark">
-					<time datetime="2020-12-19T10:31:11">2020-12-19</time>
-				</a>
-				</div>
-		</header>
-
-		<div class="post-excerpt"><p>
-			Extending Leaflet library to create an animated marker
-
-			<a href="/leaflet-animated-marker/" class="more-link">Read more</a>
-		</p></div>
-	</div>
-	
-	<footer class="post-footer">
-		
-		
-		
-		<span class="post-categories">
-				<a href="/categories/bits/">Bits</a>&emsp;
-				
-				<a href="/categories/frontend/">Frontend</a>&emsp;
-				
-		</span>
-		
-
-		
-		
-		
-		<span class="post-tags">
-		</span>
-		
-	</footer>
-
-</article>
-    
-        <article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="post-header">
-				<h2><a href="/nginx-ssl-reverse-proxy/" rel="bookmark">Nginx SSL Reverse Proxy</a></h2>
-				<div class="post-details">
-				<a rel="bookmark">
-					<time datetime="2020-11-14T12:31:11">2020-11-14</time>
-				</a>
-				</div>
-		</header>
-
-		<div class="post-excerpt"><p>
-			<p>In this post I would like to show a minimal configuration to set up a Nginx server with SSL termination
-and reverse proxy to another service. Also, I set up a static html content serving.</p>
-			<a href="/nginx-ssl-reverse-proxy/" class="more-link">Read more</a>
-		</p></div>
-	</div>
-	
-	<footer class="post-footer">
-		
-		
-		
-		<span class="post-categories">
-				<a href="/categories/devops/">DevOps</a>&emsp;
-				
-				<a href="/categories/server/">Server</a>&emsp;
-				
-		</span>
-		
-
-		
-		
-		
-		<span class="post-tags">
-				<a href="/tags/poc/">POC</a>&emsp;
-				
-		</span>
-		
-	</footer>
-
-</article>
-    
-        <article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="post-header">
-				<h2><a href="/bulk-ebook-converter/" rel="bookmark">Bulk eBook Converter</a></h2>
-				<div class="post-details">
-				<a rel="bookmark">
-					<time datetime="2020-04-04T18:50:28">2020-04-04</time>
-				</a>
-				</div>
-		</header>
-
-		<div class="post-excerpt"><p>
-			<p>Script that wraps the ebook-converter linux command line tool for a convenient bulk usage.</p>
-			<a href="/bulk-ebook-converter/" class="more-link">Read more</a>
-		</p></div>
-	</div>
-	
-	<footer class="post-footer">
-		
-		
-		
-		<span class="post-categories">
-				<a href="/categories/bash/">Bash</a>&emsp;
-				
-				<a href="/categories/tool/">Tool</a>&emsp;
-				
-		</span>
-		
-
-		
-		
-		
-		<span class="post-tags">
-		</span>
-		
-	</footer>
-
-</article>
-    
-        <article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="post-header">
-				<h2><a href="/reddit-urls-scraper/" rel="bookmark">Reddit Urls Scraper</a></h2>
-				<div class="post-details">
-				<a rel="bookmark">
-					<time datetime="2020-03-21T17:30:50">2020-03-21</time>
-				</a>
-				</div>
-		</header>
-
-		<div class="post-excerpt"><p>
-			<p>Showcasing a command line tool to fetch urls from posts from a given subreddit.</p>
-			<a href="/reddit-urls-scraper/" class="more-link">Read more</a>
-		</p></div>
-	</div>
-	
-	<footer class="post-footer">
-		
-		
-		
-		<span class="post-categories">
-				<a href="/categories/tool/">Tool</a>&emsp;
-				
-		</span>
-		
-
-		
-		
-		
-		<span class="post-tags">
-		</span>
-		
-	</footer>
-
-</article>
-    
-        <article class="list__item post clearfix">
-	<div class="list__content clearfix">
-		<header class="post-header">
-				<h2><a href="/protobuf-communication-between-js-client-and-go-server/" rel="bookmark">Protobuf communication between Js-client and Go-server</a></h2>
-				<div class="post-details">
-				<a rel="bookmark">
-					<time datetime="2019-12-05T14:29:51">2019-12-05</time>
-				</a>
-				</div>
-		</header>
-
-		<div class="post-excerpt"><p>
-			<p>In this article, I present a small Proof of Concept of communication between a browser (Js) and a server (Golang) using Protocol Buffers over Websockets. This idea emerged as part of a bigger personal project I&rsquo;m working on and will probably show here in the future.</p>
-			<a href="/protobuf-communication-between-js-client-and-go-server/" class="more-link">Read more</a>
-		</p></div>
-	</div>
-	
-	<footer class="post-footer">
-		
-		
-		
-		<span class="post-categories">
-				<a href="/categories/poc/">POC</a>&emsp;
-				
-		</span>
-		
-
-		
-		
-		
-		<span class="post-tags">
-		</span>
-		
-	</footer>
-
-</article>
-    
-  </div>
-
-
-
-<table cellspacing="15" style="width:100%; border: none;">
-    <tr>
-        <td style="text-align: center; border: none; padding: 0px;">
-        </td>
-        <td style="text-align: center; border: none; padding: 0px;">
-        </td>
-    </tr>
-</table>
-
-</main>
-
-
-        <div class="sidebar1 widgets columns-1">
-
-    <aside>
-    
-</aside>
-    <aside class="widget widget_categories">
-        <h2>Categories</h2>
-        <ul class="widget__list"><li class="cat-item cat-item-2">
-                <a href="/categories/bash/">Bash (1)</a>
-            </li><li class="cat-item cat-item-2">
-                <a href="/categories/bits/">Bits (1)</a>
-            </li><li class="cat-item cat-item-2">
-                <a href="/categories/devops/">DevOps (1)</a>
-            </li><li class="cat-item cat-item-2">
-                <a href="/categories/frontend/">Frontend (1)</a>
-            </li><li class="cat-item cat-item-2">
-                <a href="/categories/go/">Go (1)</a>
-            </li><li class="cat-item cat-item-2">
-                <a href="/categories/poc/">POC (1)</a>
-            </li><li class="cat-item cat-item-2">
-                <a href="/categories/programming/">Programming (1)</a>
-            </li><li class="cat-item cat-item-2">
-                <a href="/categories/rust/">Rust (1)</a>
-            </li><li class="cat-item cat-item-2">
-                <a href="/categories/server/">Server (1)</a>
-            </li><li class="cat-item cat-item-2">
-                <a href="/categories/tool/">Tool (3)</a>
-            </li>
-        </ul>
-    </aside>
-
-    <aside class="widget widget_tag_cloud">
-        <h2>Tags</h2>
-        <div class="tagcloud"><a class="tag-cloud-link" href="/tags/bash/" title="bash" style="font-size: 12pt;">Bash</a>&emsp;<a class="tag-cloud-link" href="/tags/command-line/" title="command line" style="font-size: 12pt;">Command Line</a>&emsp;<a class="tag-cloud-link" href="/tags/devops/" title="devops" style="font-size: 12pt;">Devops</a>&emsp;<a class="tag-cloud-link" href="/tags/ebook/" title="ebook" style="font-size: 12pt;">EBook</a>&emsp;<a class="tag-cloud-link" href="/tags/geo/" title="geo" style="font-size: 12pt;">Geo</a>&emsp;<a class="tag-cloud-link" href="/tags/go/" title="go" style="font-size: 12pt;">Go</a>&emsp;<a class="tag-cloud-link" href="/tags/golang/" title="golang" style="font-size: 12pt;">Golang</a>&emsp;<a class="tag-cloud-link" href="/tags/html/" title="html" style="font-size: 12pt;">Html</a>&emsp;<a class="tag-cloud-link" href="/tags/js/" title="js" style="font-size: 12pt;">Js</a>&emsp;<a class="tag-cloud-link" href="/tags/jwt/" title="jwt" style="font-size: 12pt;">Jwt</a>&emsp;<a class="tag-cloud-link" href="/tags/leaflet/" title="leaflet" style="font-size: 12pt;">Leaflet</a>&emsp;<a class="tag-cloud-link" href="/tags/linux/" title="linux" style="font-size: 12pt;">Linux</a>&emsp;<a class="tag-cloud-link" href="/tags/nginx/" title="nginx" style="font-size: 12pt;">Nginx</a>&emsp;<a class="tag-cloud-link" href="/tags/poc/" title="poc" style="font-size: 12pt;">POC</a>&emsp;<a class="tag-cloud-link" href="/tags/programming/" title="programming" style="font-size: 12pt;">Programming</a>&emsp;<a class="tag-cloud-link" href="/tags/protobuf/" title="protobuf" style="font-size: 12pt;">Protobuf</a>&emsp;<a class="tag-cloud-link" href="/tags/reddit/" title="reddit" style="font-size: 12pt;">Reddit</a>&emsp;<a class="tag-cloud-link" href="/tags/rust/" title="rust" style="font-size: 12pt;">Rust</a>&emsp;<a class="tag-cloud-link" href="/tags/server/" title="server" style="font-size: 12pt;">Server</a>&emsp;<a class="tag-cloud-link" href="/tags/ssl/" title="ssl" style="font-size: 12pt;">Ssl</a>&emsp;<a class="tag-cloud-link" href="/tags/tool/" title="tool" style="font-size: 12pt;">Tool</a>&emsp;<a class="tag-cloud-link" href="/tags/websocket/" title="websocket" style="font-size: 12pt;">Websocket</a>&emsp;
-        </div>
-    </aside>
-
-    <aside class="widget widget_recent_entries">
-        <h2>Recent Posts</h2>
-        <ul>
-            <li>
-                <a href="/aleka-a-schema-agnostic-protobuf-decoder/">Aleka: a schema agnostic protobuf decoder</a>
-            </li>
-            <li>
-                <a href="/jwt-token-auth-in-golang/">Jwt Token Auth in Golang</a>
-            </li>
-            <li>
-                <a href="/leaflet-animated-marker/">Leaflet animated marker</a>
-            </li>
-            <li>
-                <a href="/nginx-ssl-reverse-proxy/">Nginx SSL Reverse Proxy</a>
-            </li>
-            <li>
-                <a href="/bulk-ebook-converter/">Bulk eBook Converter</a>
-            </li>
-            <li>
-                <a href="/reddit-urls-scraper/">Reddit Urls Scraper</a>
-            </li>
-            <li>
-                <a href="/protobuf-communication-between-js-client-and-go-server/">Protobuf communication between Js-client and Go-server</a>
-            </li>
-        </ul>
-    </aside>
-
-    <aside class="widget widget_archive">
-        <h2>Archives</h2>
-        <ul>
-        </ul>
-    </aside>
-
-</div>
-        </div>
-        </div>
-<footer role="contentinfo" class="document-footer contentinfo widgets columns-1">
-
-    <aside class="widget widget_text">
-        <div class="textwidget">
-            <p>© Miguel Abate / Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with theme <a href="https://github.com/tosi29/inkblotty" target="_blank">Inkblotty</a></p>
-        </div>
-    </aside>
-</footer>
-</div>
-
-    </body>
+</body>
 </html>
